@@ -434,40 +434,7 @@ friend.sayName(); //error
 * 怪癖检测: 识别浏览器的特殊行为 (bug);
 * 用户代理检测: 能够检测出浏览器所用的呈现引擎,所在平台,包括移动设备以及游戏系统; 识别程序引擎的顺序应该为 Opera, WebKit, KHTML, Gecko, IE;
 
-### 9.DOM 与 DOM 扩展
-
-* 虽然可以通过方括号语法来访问 NodeList 的值,而且这个对象也有 length 属性,但是它并不是 Array 的实例;
-* Document: nodeType 值为9, 表示文档;
-* Element: nodeType 值为1, 用于表示 XML 或者 HTML 元素;
-* Text: nodeType 值为3, 包含可以照字面解释的纯文本内容;
-* Comment: nodeType 值为8, 表示注释;
-* CDATASelection: nodeType 值为4, 表示 CDATA 区域;
-* DocumentType: nodeType 值为10, 包含与文档的 doctype 有关的所有信息;
-* DocumentFragment: nodeType 值为11;
-* Attr: nodeType 值为2;
-* NodeList 对象是动态的,这意味着每次访问 NodeList 对象,都会运行一次查询;
-* Selectors API Level 1 的选择符核心两个方法: querySelector(), querySelectorAll();
-* Selectors API Level 2 为 Element 新增的一个方法: matchesSelector(), 暂且只有实验性的实现; 
-* HTML5 与 DOM 节点相关的内容: [getElementsByClassName()](https://developer.mozilla.org/en/docs/Web/API/Document/getElementsByClassName), [classList](https://developer.mozilla.org/en/docs/Web/API/Element/classList), 焦点管理, HTMLDocument 的变化, 字符集属性, 自定义数据属性, 插入标记, [scrollIntoVIew()](https://developer.mozilla.org/en/docs/Web/API/Element/scrollIntoView)
-* 专有扩展包括: 文档模式
-
-### DOM2 & DOM3
-
-* 遍历: DOM2 级遍历和范围定义了两个用于辅助完成顺序遍历 DOM 结构的类型: NodeIterator(), TreeWalker()
-
-### 10.事件
-
-* 事件流的概念分为事件冒泡(IE)和事件捕获(Netscape Communicator), "DOM2 级事件"规定的事件流包括三个阶段:事件捕获阶段,处于目标阶段和事件冒泡阶段;
-* DOM0 中每个元素都有自己的事件处理程序属性,但对每个事件只支持一个事件处理程序;
-* DOM2 级事件中定义了两个方法: addEventListener(), removeEventListener();
-* DOM3 级事件规定了以下几类事件: UI 事件, 焦点事件, 鼠标事件, 滚轮事件, 文本事件, 键盘事件, 合成事件, 变动事件, 变动名称事件;
-* DOM2 级事件处理程序方法接收三个参数,最后一个值为布尔值参数,若为true表示在捕获阶段调用事件处理程序;如果是false表示在冒泡阶段调用事件处理程序;
-* 键盘与文本事件: 对数字字母字符键,keyCode 属性的值与 ASCII 码中对应小写字母或者数字的编码相同;
-* HTML5 事件: contextmenu 事件(上下文菜单,冒泡), beforeunload 事件, DOMContentLoaded 事件, readystatechange 事件, pageshow / pagehide 事件, hashchange 事件;
-* 设备事件: orientationchange 事件, MozOrientation 事件(实验性 API), deviceorientation 事件, devicemotion 事件;
-* 触摸与手势事件: 在触摸屏幕上的元素时,事件的发生顺序为: touchstart, mouseover, mousemove(一次), mousedown, mouseup, click, touchend;
-* 事件委托利用了事件冒泡,只指定一个事件处理程序,就可以管理某一类型的所有事件;
-
+### 9.
 ### 11.表单脚本
 
 * HTML5 为表单字段新增了一个 autofocus 属性; 在默认情况下,只有表单字段可以获得焦点;
@@ -1309,3 +1276,50 @@ console.log(children.item(1));  // <p>ligang</p>
 var ele=p.cloneNode(true);
 div.appendChild(ele);
 ```
+### DOM 与 DOM 扩展
+
+* 虽然可以通过方括号语法来访问 NodeList 的值,而且这个对象也有 length 属性,但是它并不是 Array 的实例;
+* Document: nodeType 值为9, 表示文档;
+* Element: nodeType 值为1, 用于表示 XML 或者 HTML 元素;
+* Text: nodeType 值为3, 包含可以照字面解释的纯文本内容;
+* Comment: nodeType 值为8, 表示注释;
+* CDATASelection: nodeType 值为4, 表示 CDATA 区域;
+* DocumentType: nodeType 值为10, 包含与文档的 doctype 有关的所有信息;
+* DocumentFragment: nodeType 值为11;
+* Attr: nodeType 值为2;
+* NodeList 对象是动态的,这意味着每次访问 NodeList 对象,都会运行一次查询;
+* Selectors API Level 1 的选择符核心两个方法: querySelector(), querySelectorAll();
+* Selectors API Level 2 为 Element 新增的一个方法: matchesSelector(), 暂且只有实验性的实现; 
+* HTML5 与 DOM 节点相关的内容: [getElementsByClassName()](https://developer.mozilla.org/en/docs/Web/API/Document/getElementsByClassName), [classList](https://developer.mozilla.org/en/docs/Web/API/Element/classList), 焦点管理, HTMLDocument 的变化, 字符集属性, 自定义数据属性, 插入标记, [scrollIntoVIew()](https://developer.mozilla.org/en/docs/Web/API/Element/scrollIntoView)
+* 专有扩展包括: 文档模式
+
+### DOM2 & DOM3
+
+* 遍历: DOM2 级遍历和范围定义了两个用于辅助完成顺序遍历 DOM 结构的类型: NodeIterator(), TreeWalker()
+
+### DOM 事件
+
+* 事件流的概念分为事件冒泡(IE)和事件捕获(Netscape Communicator), "DOM2 级事件"规定的事件流包括三个阶段:事件捕获阶段,处于目标阶段和事件冒泡阶段;
+* DOM0 中每个元素都有自己的事件处理程序属性,但对每个事件只支持一个事件处理程序;
+* DOM2 级事件中定义了两个方法: addEventListener(), removeEventListener();
+* DOM3 级事件规定了以下几类事件: UI 事件, 焦点事件, 鼠标事件, 滚轮事件, 文本事件, 键盘事件, 合成事件, 变动事件, 变动名称事件;
+* DOM2 级事件处理程序方法接收三个参数,最后一个值为布尔值参数,若为true表示在捕获阶段调用事件处理程序;如果是false表示在冒泡阶段调用事件处理程序;
+* 键盘与文本事件: 对数字字母字符键,keyCode 属性的值与 ASCII 码中对应小写字母或者数字的编码相同;
+* HTML5 事件: contextmenu 事件(上下文菜单,冒泡), beforeunload 事件, DOMContentLoaded 事件, readystatechange 事件, pageshow / pagehide 事件, hashchange 事件;
+* 设备事件: orientationchange 事件, MozOrientation 事件(实验性 API), deviceorientation 事件, devicemotion 事件;
+* 触摸与手势事件: 在触摸屏幕上的元素时,事件的发生顺序为: touchstart, mouseover, mousemove(一次), mousedown, mouseup, click, touchend;
+* 事件委托利用了事件冒泡,只指定一个事件处理程序,就可以管理某一类型的所有事件;
+
+### DOMContentLoaded和load
+DOM文档加载的步骤为
+> 1.解析HTML结构。//DOMContentLoaded,相当于jQuery中ready()
+> 2.加载外部脚本和样式表文件。
+> 3.解析并执行脚本代码。
+> 4.DOM树构建完成。
+> 5.加载图片等外部文件。
+> 6.页面加载完毕。//load
+
+当初始HTML文档已完全加载和解析时，将触发DOMContentLoaded事件，而无需等待样式表，图像和子框架完成加载。
+```JavaScript
+DOMContentLoaded='DOMContentLoaded' in windows ? 'DOMContentLoaded' : 'onreadystatechange'
+
