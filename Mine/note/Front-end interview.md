@@ -1026,22 +1026,6 @@ function repeat3(arr){
 > View（视图）显示数据（数据库记录）。
 > Controller（控制器）处理输入（写入数据库记录）。
 
-#### 22 单页面SPA优缺点
-##### 优点：
-- 1.用户体验好，快，内容的改变不需要重新加载整个页面
-- 2.基于上面一点，SPA相对服务器压力小
-- 3.没有页面切换，就没有白屏阻塞
-
-##### 缺点:
-- 1.不利于SEO 
-> 为什么不利于SEO？
-> - SPA简单流程,蜘蛛无法执行JS，相应的页面内容无从抓取
-> - <html data-ng-app=”app”>是其标志性的标注,对于这种页面来说，很多都是采用js等搜索引擎无法识别的技术来做的
-- 2.初次加载耗时增多 
-- 3.导航不可用 
-- 4.容易造成css命名冲突等 
-- 5.页面复杂度提高很多，复杂逻辑难度成倍
-
 #### 23 localStarge sessionStrage cookie的区别以及相应的用法
 - 都会在浏览器端保存，有大小限制，同源限制
 - cookie会在请求时发送到服务器，作为会话标识，服务器可修改cookie；web storage不会发送到服务器
@@ -1322,4 +1306,333 @@ DOM文档加载的步骤为
 当初始HTML文档已完全加载和解析时，将触发DOMContentLoaded事件，而无需等待样式表，图像和子框架完成加载。
 ```JavaScript
 DOMContentLoaded='DOMContentLoaded' in windows ? 'DOMContentLoaded' : 'onreadystatechange'
+```
 
+## Vue面试题
+1. vue中常见的指令有哪些?
+v-for/v-if/v-else-if/v-else/v-on/v-bind/v-show/v-html/v-model
+
+2. 双向数据绑定是如何实现的？好处有哪些
+    v-model
+好处？
+组件是一个具有特定功能的 可被反复使用的视图，
+各个指令实现数据和视图的绑定，解耦（降低耦合度的过程）
+
+3. 组件有什么好处？
+> - 封装好了组件，提高了代码复用率
+> - 提高了代码的可读性
+> - 降低了测试难度
+
+4. Vue实例中常见的属性有哪些？
+> - data 存储数据
+> - methods 方法
+> - directives 指令
+> - filters 过滤器/管道
+> - router 路由
+> - props 接收调用该组件时传来的数据
+> - watch 监听双向数据绑定的数据的变化
+> - computed 用在逻辑复杂的地方，计算属性是基于它们的依赖进行缓存的，提高性能
+
+5. 生命周期
+①指令的生命周期
+
+> bind/update/unbind
+> bind/update是有参数的 (el,bindings) 取通过指令传递来的参数bindings.value  bindings.oldValue
+
+②组件的生命周期
+create/mount/update/destroy
+before+名字
+名字+ed
+
+6. 过滤器
+本质是一个带有参数 有返回值的方法;支持多重过滤
+<any>{{表达式 | myFilter(arg1,arg2) | myFilter2}}</any>
+
+7. 不同的组件之间 是如何来完成数据的传输？
+props down,events up
+7.1 父与子通信？
+```JavaScript
+Vue.component('parentCom',{
+ data:{
+  tips:"welcome"
+ },
+ template:`
+  <sonCom :myTitle="tips"></sonCom>
+ `
+})
+Vue.component('sonCom',{
+ props:['myTitle'],
+ template:`
+  <h1>{{myTitle}}</h1>
+ `
+})
+```
+7.2  子与父通信？
+```JavaScript
+Vue.component('parentCom',{
+ data:{
+  tips:"welcome"
+ },
+ methods:{
+  rcvMsg:function(data){
+	}
+ },
+ template:`
+  <sonCom @customClick="rcvMsg"></sonCom>
+ `
+})
+Vue.component('sonCom',{
+ data：{
+  myName:'zhagnsan'
+ }，
+ methods:{
+	 sendToFather:function(){
+		this.$emit('customClick',this.myName)
+	 }
+ },
+ template:`
+	<button @click="sendToFather"> clickeMe </button>
+ `
+})
+```
+
+**其它方式：**
+7.3 refs
+- 1、给子组件要指定一个属性 ```<son ref="mySon"></son>```
+- 2、通过引用名字mySon怎么得到子组件的实例？ this.$refs.mySon
+
+7.4 parent
+parent
+this.$parent
+
+7.5 bus 
+使用空的vue的实例
+var bus = new Vue();
+bus.$on()
+bus.$emit();
+
+8. SPA(single page application)是什么？好处？vue怎么使用的？vue的路由模块都干了哪些事情？
+#####理解:
+单页面应用就是说只有一个html文件，操作过程中不进行页面跳转，而是更改html的内容。
+多页面应用的 server 端要干两件事：提供数据+渲染，而单页面应用把渲染拿到浏览器端做了，服务器只提供数据就可以了
+##### 优点：
+- 1.用户体验好，快，内容的改变不需要重新加载整个页面
+- 2.基于上面一点，SPA相对服务器压力小
+- 3.没有页面切换，就没有白屏阻塞,几乎不会在网络延迟的情况下出现空白页面
+
+##### 缺点:
+- 1.不利于SEO 
+> 为什么不利于SEO？
+> - SPA简单流程,蜘蛛无法执行JS，相应的页面内容无从抓取
+> - <html data-ng-app=”app”>是其标志性的标注,对于这种页面来说，很多都是采用js等搜索引擎无法识别的技术来做的
+- 2.初次加载耗时增多 
+- 3.导航不可用 
+- 4.容易造成css命名冲突等 
+- 5.页面复杂度提高很多，复杂逻辑难度成倍
+
+##### vue是如何实现一个SPA？
+vue-router插件
+    具体实现方式：
+    ①指定容器
+    ②创建各个组件
+    ③配置路由词典
+    ④测试
+跳转？ 
+  ``` router-link to="/detail" ```
+  this.router.push()
+传参？
+  发送接收
+  配置接收方的路由地址
+  接收参数
+  发送
+嵌套？
+    ①在准备嵌套的组件 指定一个容器 router-view
+    ②配置路由词典
+```JavaScript
+  {path:'/mail',
+  component:MailComponent,
+  children:[
+      {path:'inbox',.....}
+  ]
+  }
+```
+##### 补充:
+vue-resource 建议2.0之后使用axios
+https://www.kancloud.cn/yunye/axios/234845
+> 步骤1：cnpm install axios
+> 步骤2：本地赋值
+ ```JavaScript
+ import Axios from 'axios'
+ Vue.prototype.$axios = Axios;
+ ```
+> 步骤3：调用
+ ```this.$axios.get/post....```
+
+ ## 常见面试题 Angular
+
+#### angular与angularJS的区别
+1.版本 angular 2.0之后所有的版本 angularJS 1.*
+2.angular引入了组件的概念，舍弃了老的核心概念$scope/controller/脏数据检查机制
+3.angular支持typeScript
+4.angular的性能更好，支持rxjs、zone.js、immutable.js
+了解：
+rxjs -->(Observable 观察者/Subscribe 消息的订阅)
+zone.js 高效率的运行错误检查机制，提示错误消息
+immutable.js 数据在修改时 保证最高的效率
+
+
+#### ts的特点
+①es6的超集
+②强类型检查机制，很多错误无需等到上线，在程序的编写和编译阶段就会提示错误，对于团队中代码的质量提高非常有帮助
+③前景
+microsoft和google联合推广的一种语言
+
+#### angular的八大核心概念
+- 模块: 
+	@angular/core /common /router /http /forms
+	angular是以模块为基本单位，模块中可以包含组件、指定、服务....
+- 组件
+	组件和指令的关系？组件的本质就是带有模板的指令
+- 模板
+	增强版（结合着双花括号和各种指令）的html
+- 指令
+	①结构型指令：*ngFor/*ngIf/*ngSwtichCase/*ngSwitchDefault
+	②属性型指令
+	（）绑定事件 [] 属性绑定 [(ngModel)] 双向数据绑定 ngStyle ngClass
+	③自定义指令类
+	```JavaScript
+    import {Directive，ElementRef} from '@angular/core'
+	@Directive({
+	 selector:'[changeBackgroundColor]'
+	})
+	//如何得到调用指令的元素呢？
+	constructor(private myEl:ElementRef){
+	}
+	this.myEl.nativeElement.style.opacity=0.5
+    ```
+- 元数据
+	metaData :告诉angular如何来处理当前的类
+    ```JavaScript
+	@Component({
+	 selector：‘’,
+	 template:``,
+	 styleUrls:['./test.css']
+	})
+    ```
+- 服务
+	服务？就是一个类，可以把经常用到的数据或者方法封装在一个服务的类当中，方便进行复用
+- 管道
+	管道就是vue中的过滤器，本质就是一个有参数有返回值的方法
+- 依赖注入
+- 如何:将依赖的（要用到的）模块、组件、服务写在对应的依赖列表中，就可以直接去使用
+- 如何在app中要想使用ngModel指令，到AppModule的imports数组中指定依赖于FormsModule
+- 如果在LoginComponent中调用网络请求的方法，直接引入对应的网络请求服务，指定providers
+	
+**依赖注入的好处？ 解耦**
+	如果没有依赖注入，要想使用ngModel，就需要找到表单模块，进行实例化，参数的设置，最终才能使用ngmodel
+
+#### ng的组件之间通信的方式？
+4.1 props down
+```JavaScript
+	//父组件：
+	@Component({
+	 template:`<sonCom [myTips]="tips"></sonCom>` 
+	})
+	export class ParentComponent{
+		tips:string="hello son"
+	}
+	//子组件：
+	import {Input} from '@angular/core'
+	
+	@Input() myTips ="";
+
+	this.myTips
+```
+4.2 events up
+```JavaScript
+	父组件：
+	@Component({
+	 template:`<sonCom (myEvent)="recvMsg()"></sonCom>` 
+	})
+	export class ParentComponent{
+		tips:string="hello son"
+	}
+	子组件：
+	import {Output} from '@angular/core'
+	sonName="zhangsan";
+	@Output() myEvent = new EventEmitter();
+	this.myEvent.emit(this.sonName);
+```
+
+4.3 指定本地变量
+```TypeScript
+import { ViewChild } from '@angular/core';
+@Component({
+	 template:`<sonCom #myChild></sonCom>` 
+	})
+	export class ParentComponent{
+		tips:string="hello son"
+		@ViewChild('myChild') myChild;
+		ngOnInit(){
+			//通过myChild得到子组件的实例
+			this.myChild
+		}
+	}
+```
+5、angular中的路由模块工作机制？相关的功能实现方案？
+路由模块是干什么的？
+建立起url和组件的映射关系，参数的传递、路由的嵌套、路由守卫
+- 如何保护一个组件在未登录的情况下不能访问？
+靠路由守卫来实现
+①创建一个服务类
+②在服务中实现一个接口 canActivate
+③在接口实现的过程中，通过返回true/false来决定是否能够访问组件
+④在路由模块中
+{path:'/demo12',component:Demo12Component,canActivate:[myGuardService]}
+
+## 常见面试题 React
+ReactJS ReactNative
+1、React核心概念
+component
+-jsx
+jsx是js的扩展，允许在js中直接编写html
+- props
+父子组件通信
+   ``` <son myName="zhangsan"/>```
+    this.props.myName
+子与父通信
+    ①在父组件中 定义一个带有参数的方法
+    ②将该方法通过属性传递给子组件
+    ③子组件通过props读到该方法进行调用，同时传值
+	
+- ref
+	```<son ref="zhagnsan"></son>```
+	this.$refs.zhangsan
+- state
+	作用：
+	①保存数据
+	② 将数据 绑定到 视图
+	```<h1 style="{{opacity:this.state.opacityValue}}">```
+
+2、组件的生命周期？
+```JavaScript
+componentWillMount
+componentDidMount
+
+componentWillUpdate
+componentDidUpdate
+componentWillReceiveProps
+
+componentWillDestroy
+```
+3、在那些生命周期处理函数可以修改状态呢？
+ 除了和更新相关的处理函数
+
+4、ReactNative和PhoneGap\基于WebView的hybridApp区别？
+ ReactNative实现原生开发，调用的是封装过的原生组件
+5、使用过哪些RN的组件？
+ View/Text/StyleSheet/FlatList/Image/Button/TextInput/KeyboardAvoidingView/TouchableOpacity/AcitivityIndicator/...
+ FlatList 
+data指定数据源 renderItem渲染列表项 extraData={this.state}可以保证当状态作为数据源时，状态修改视图有效更新
+Flexbox弹性盒子
+主轴默认是纵向，alignItems justifyContent...
