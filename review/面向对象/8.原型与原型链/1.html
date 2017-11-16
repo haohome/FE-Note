@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script>
+	
+// Javascript虽然没有继承概念，但Javascript在函数Function对象中建立了原型对象prototype，并以Function对象为主线，从上至下，在内部构建了一条原型链。
+
+// 简单来说就是建立了变量查找机制，当访问一个对象的属性时，先查是否存在找对象本身，如果不存在就去该对象所在的原型连上去找，直到Object对象为止，如果都没有找到该属性才会返回undefined。
+
+// 因此我们经常会利用函数的原型机制来实现JS继承
+
+
+// 在Javascript中，万物皆对象，但对象也有区别，大致可以分为两类，即：普通对象Object 和 函数对象Function。
+
+// 一般而言，通过new Function产生的对象是函数对象，其他对象都是普通对象。
+function f1(){
+    //todo
+}
+var f2 = function(){
+    //todo
+};
+var f3 = new Function('x','console.log(x)');
+ 
+var o1 = {};
+var o2 = new Object();
+var o3 = new f1();
+ 
+console.log(
+    typeof f1,//function
+    typeof f2,//function
+    typeof f3,//function
+    typeof o1,//object
+    typeof o2,//object
+    typeof o3 //object
+);
+//在JS中，每当创建一个函数对象f1 时，该对象中都会内置一些属性，其中包括prototype和__proto__,  prototype即原型对象，它记录着f1的一些属性和方法。
+
+//总结
+// 原型链的形成真正是靠__proto__ 而非prototype,当JS引擎执行对象的方法时，先查找对象本身是否存在该方法，如果不存在，会在原型链上查找，但不会查找自身的prototype。
+// 一个对象的__proto__记录着自己的原型链，决定了自身的数据类型，改变__proto__就等于改变对象的数据类型。
+// 函数的prototype不属于自身的原型链，它是子类创建的核心，决定了子类的数据类型，是连接子类原型链的桥梁。
+// 在原型对象上定义方法和属性的目的是为了被子类继承和使用。
+</script>
+
+
+
+
+
+
+
+
+
+

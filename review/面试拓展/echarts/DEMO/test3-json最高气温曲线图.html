@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>上海未来五天最高温曲线图</title>
+</head>
+<body>
+<!-- 在绘图前我们需要为 ECharts 准备一个具备高宽的 DOM 容器。 -->
+<div id="main" style='widht:600px; height:400px;'></div>
+</body>
+<!-- 引入 Echarts  -->
+<script src="echarts.js"></script>
+<!-- 引入 Jquery -->
+<script src="jquery.js"></script>
+<script>
+    // 页面参数
+    var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+
+
+    apiUrl = 'test5.json';  // 由于网络请求测试会等待，所以这里配的本地的，不需要时，注释该行
+
+
+    var apiData = {
+        "q" : "Shanghai,CN",    // 中国上海
+        "mode" : "JSON",    // 数据返回格式 JSON
+        "apikey" : "acf8692d61e3500ad1edfe30e6ba0771"  // apikey
+    };
+
+    // 初始化
+    var myChart = echarts.init( $('#main' )[0] );
+
+    /* 公共函数 */
+    var CtoK = function( c ) { return (c + 273.16).toFixed(2) }; // 摄氏度 转换成 华氏度
+    var KtoC = function( c ) { return (c - 273.16).toFixed(2) }; // 华氏度 转换成 摄氏度
+
+    // 显示标题，图例和空的坐标轴
+    myChart.setOption( {
+        title: { text: '上海未来五天最高温曲线图' },
+        // 据说这个还是加分项哦
+        tooltip: {  // 提示框组件 是否显示提示框组件，包括提示框浮层和 axisPointer。
+            trigger: 'axis'
+        },
+        legend: {   // 图例组件
+            data: ['最高气温']
+        },
+        xAxis: { data: [] }, // 直角坐标系 grid 中的 x 轴
+        yAxis: {  },  // 直角坐标系 grid 中的 y 轴
+        series: [{  // 系列列表。每个系列通过 type 决定自己的图表类型
+            name: '最高气温',
+            type: 'line',
+            data: []
+        }]
+    });
+    // 展示 loading 动画
+    myChart.showLoading();
+
+    // 发送 ajax 请求 获取数据
+    $.get( apiUrl, apiData, function( data ) {
+        // 回调 关闭 loading 动画
+        myChart.hideLoading();
+        if ( data.cod !== "200" ){
+            console.log( '获取数据失败' );
+            return;
+        };
+
+        // 准备数组 保存 最高温度 和 日期
+        var tempMax = [], dateArr = [];
+
+        // 准备数据
+        $.each( data.list, function () {
+            var tMax = +this.main.temp_max;   // 最高气温
+            tempMax.push( KtoC( tMax ) );
+            dateArr.push( this.dt_txt );    // 日期
+        });
+
+        // 填入数据
+        myChart.setOption( {
+            xAxis: {
+                data: dateArr
+            },
+            series: [
+                {
+                    name: '最高气温',
+                    data: tempMax
+                }
+            ]
+        });
+
+    });
+
+</script>
+</html>

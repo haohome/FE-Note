@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  var arr = [1, 1, 5, 7, 8, 3, 2, 5, 7, 2, 4, 6, 2, 5, 7, 2, 5];
+  //定义一个新数组
+  var newArr = [];
+  //遍历数组
+  for (var i = 0; i < arr.length; i++) {
+    //假设不存在
+    var flag = true;
+    //需要判断arr[i]这个值是否在新数组中存在
+    for(var j = 0; j < newArr.length; j++){
+      //进行比较即可
+      if(arr[i] == newArr[j]){
+        //如果发现了相等的数，说明存在
+        flag = false;
+      }
+    }
+    
+    if(flag){
+      //如果假设成立，说明不存在
+      newArr.push(arr[i]);
+    }
+  }
+  console.log(newArr);
+</script>
+</body>
+</html>

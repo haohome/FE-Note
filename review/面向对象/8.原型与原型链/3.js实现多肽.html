@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+	// 　多态性是指允许不同类的对象对同一消息作出响应。比如同样的加法，把两个时间加在一起和把两个整数加在一起肯定完全不同。又比如，同样的选择编辑-粘贴操作，在字处理程序和绘图程序中有不同的效果。多态性包括参数化多态性和包含多态性。多态性语言具有灵活、抽象、行为共享、代码共享的优势，很好的解决了应用程序函数同名问题。
+	var makeSound = function(animal) {
+    animal.sound();
+}
+
+var Duck = function(){}
+Duck.prototype.sound = function() {
+    console.log('嘎嘎嘎')
+}
+var Chiken = function() {};
+Chiken.prototype.sound = function() {
+    console.log('咯咯咯')
+}
+
+makeSound(new Chicken());
+makeSound(new Duck());
+
+</script>
+</html>

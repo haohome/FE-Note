@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绝对底部</title>
+	<style>
+		*{margin:0;
+			padding:0;}
+		html,body{
+			height:100%;
+			width:100%;
+		}
+		#wrap{
+			height:auto;
+			min-height:100%;
+		}
+		#main{
+			padding-bottom:100px;/* 不加这个 部分内容 会看不到 */
+		}
+		#footer{
+			background-color:#eee;
+			margin-top:-100px;/*footer的高度负值*/
+			height:100px;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="main">我是main内容</div>
+	</div>
+	<div id="footer">我是底部,利用margin-top=-100px显示</div>
+</body>
+</html>

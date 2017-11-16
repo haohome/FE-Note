@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>测试api</title>
+</head>
+<body>
+</body>
+<script src="jquery.js"></script>
+<script>
+    // http://api.openweathermap.org/data/2.5/forecast?q=Shanghai,CN&mode=JSON&apikey=acf8692d61e3500ad1edfe30e6ba0771
+    // Access-Control-Allow-Origin:* 接口允许跨域请求，可以直接用 get 请求数据
+    var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+    var data = {
+        "q" : "Shanghai,CN",    // 中国上海
+        "mode" : "JSON",    // 数据返回格式 JSON
+        "apikey" : "acf8692d61e3500ad1edfe30e6ba0771"  // apikey
+    };
+    $.get( apiUrl, data, function( data ) {
+        console.log( data );
+    });
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		//1.replace;
+		var re = /(\w+)\s(\w+)/;
+		var str = 'John Smith';
+		var newstr = str.replace(re, '$2, $1');
+		console.log(newstr);
+
+		//2.match
+		var s = 'Please yes\nmake my day!';
+		s.match(/yes.*day/);
+		// Returns null
+		s.match(/yes[^]*day/);
+		// Returns ["yes\nmake my day"]
+
+		//3
+		var str = '#foo#';
+		var regex = /foo/y;
+
+		regex.lastIndex = 1;
+		regex.test(str); // true
+		regex.lastIndex = 5;
+		regex.test(str); // false (lastIndex is taken into account with sticky flag)
+		regex.lastIndex; // 0 (reset after match failure)
+
+		//4.
+		var text = 'Образец text на русском языке';
+		var regex = /[\u0400-\u04FF]+/g;
+
+		var match = regex.exec(text);
+		console.log(match[0]);        // logs 'Образец'
+		console.log(regex.lastIndex); // logs '7'
+
+		var match2 = regex.exec(text);
+		console.log(match2[0]);       // logs 'на' [did not log 'text']
+		console.log(regex.lastIndex); // logs '15'
+		// and so on
+
+		//5.exec()
+		var url = 'http://xxx.domain.com';
+		console.log(/[^.]+/.exec(url)[0].substr(7)); // logs 'xxx'
+	</script>
+</body>
+</html>

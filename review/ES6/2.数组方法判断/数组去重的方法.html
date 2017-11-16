@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='box'>
+
+    </div>
+</body>
+<script>
+    // 一: 数组去重的实现
+    // 基本数组去重
+    // var arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 5, 1, 2, ];
+    // var newArr = [];
+    // arr.forEach(function(v) {
+    //     if (newArr.indexOf(v) < 0) {
+    //         newArr.push(v);
+    //     }
+    // });
+    // console.log(newArr);
+
+
+    // 数组去重方法一的封装:
+    // Array.prototype.unique = function() {
+    //     var result = [];
+    //     this.forEach(function(v) {
+    //         if (result.indexOf(v) < 0) {
+    //             result.push(v);
+    //         }
+    //     });
+    //     return result;
+    // }
+
+
+    // 利用obj对象去重，
+    // 方法二:
+    // var arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 5, 1, 2, ];
+    // var obj = {};
+    // var newArr = [];
+    // arr.forEach(function(v) {
+    //     if (!obj[v]) {
+    //         obj[v] = true;
+    //         newArr.push(v);
+    //     }
+    // });
+    // console.log(newArr);
+
+
+    // 方法二的封装
+    // Array.prototype.unique = function() {
+    //     var result = [],
+    //         obj = {};
+    //     this.forEach(function(v) {
+    //         if (!obj[v]) {
+    //             obj[v] = true;
+    //             result.push(v);
+    //         }
+    //     });
+    //     return result;
+    // }
+
+    // var arr = [1, 2, '1', '2', 2];
+    // var newArr = [];
+    // var obj = {};
+    // arr.forEach(function(v) {
+    //     if (!obj[v]) {
+    //         obj[v] = true;
+    //         newArr.push(v);
+    //     }
+    // });
+    // console.log(newArr);
+
+
+    // // 上面的方法存在一个bug，对于数组[1,2,'1','2',3]，
+    // // 去重结果为[1,2,3]，原因在于对象对属性索引时会进行强制类型转换
+    // // arr[‘1']和arr[1]得到的都是arr[1]的值，因此需做一些改变：
+
+    // Array.prototype.unique = function() {
+    //     var result = [],
+    //         hash = {};
+    //     this.forEach(function(v) {
+    //         var type = typeof(v); //获取元素类型
+    //         hash[v] || (hash[v] = new Array());
+    //         if (hash[v].indexOf(type) < 0) {
+    //             hash[v].push(type); //存储类型
+    //             result.push(v);
+    //         }
+    //     });
+    //     return result;
+    // }
+    // var arr = [1, '1', 2, '2', '2', '2'];
+
+
+    // console.log(arr.unique());
+    
+    // var newArr = [];
+    // var obj = {};
+    // arr.forEach(function(v) {
+    //     var type = typeof(v);
+    //     obj[v] || (obj[v] = new Array());
+    //     if (obj[v].indexOf(type) < 0) {
+    //         obj[v].push(type);
+    //         newArr.push(type);
+    //         console.log(newArr);
+    //     }
+    // })
+
+
+    // // ES5中的数组去重
+    // Array.prototype.uniq = function() {
+    //     var arr = [];
+    //  e   // var flag = true;
+    //     this.forEach(function(item) {
+    //         // 排除 NaN (重要！！！)
+    //         if (item !== item) {
+    //             flag && arr.indexOf(item) === -1 ? arr.push(item) : '';
+    //             // flag = false;
+    //         } else {
+    //             arr.indexOf(item) === -1 ? arr.push(item) : ''
+    //         }
+    //     });
+    //     return arr;
+    // }
+    // var arr = [6, 1, 2, 4, 6, 2];
+    // console.log(arr.uniq());
+    // ES6 中的去重
+    // ES6新增了 Set 对象， 
+    // 也就是我们所说的“ 集合”， 
+    // 它类似于数组， 但是成员的值都是唯一的， 
+    // 没有重复的值。 所以可以方便去重。
+
+    // Set本身是一个构造函数， 用来生成Set数据结构
+    // Array.prototype.uniq = function() {
+    //     return Array.from(new Set(this));
+    // }
+
+
+    //1. 假设成立
+    //2. 想办法推翻假设
+    //3. 如果推翻不了，说明假设成立
+    // var arr = [1, 3, 5, 7, 9, 2, 4, 6, 8, 10];
+    // for (var i = 0; i < arr.length - 1; i++) {
+    //     //每一趟进来都要假设排序号了
+    //     var flag = true;
+    //     for (var j = 0; j < arr.length - 1 - i; j++) {
+    //         if (arr[j] > arr[j + 1]) {
+    //             //能进来，就说明，假设不成
+    //             flag = false;
+    //             var temp = arr[j];
+    //             arr[j] = arr[j + 1];
+    //             arr[j + 1] = temp;
+    //         }
+    //     }
+
+    //     if (flag) {
+    //         break;
+    //     }
+    // }
+    // console.log(arr);
+
+    // // var arr = [1, 9, 0, 3];
+    // //arr = arr.sort(function(a, b) {
+    // //     return a - b;
+    // // });
+
+
+    // 在javascript中创建img标签:分别使用三种方法
+    var box = document.getElementById('box');
+    // // 方法一(利用innerHtml 可以识别标签):
+    box.innerHTML = '<img src = "http://baike.baidu.com/cms/rc/240x112dierzhou.jpg">';
+
+
+    // // 创建元素 方法二 利用createElement():
+    var img1 = document.createElement('img');
+    img1.src = "http://baike.baidu.com/cms/rc/240x112dierzhou.jpg";
+    box.appendChild(img1);
+
+    // 方法三: 利用函数
+    function c() {
+        var cc = new Image();
+        cc.src = "http://baike.baidu.com/cms/rc/240x112dierzhou.jpg";
+        document.getElementById("box").appendChild(cc);
+    }
+    c();
+</script>
+
+</html>

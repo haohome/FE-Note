@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	<div class="yyjh_sel status_new_sel">  
+	    <label><input type="radio" name="yyjh" value="1">有意向/较好</label>  
+	    <ul class="child_sel">  
+	        <li name="g_status" id="g_yyjh_status">  
+	            <option value="1">有意向</option>  
+	        </li>  
+	    </ul>  
+	</div>  
+</body>
+<script>
+	$(document).on('mouseover mouseout','.status_new_sel',function (e) {  
+	        if(e.type == 'mouseover'){  
+	            $(this).children('.child_sel').show();  
+	            var _child_a = $(".child_sel>li>a");  
+	            //鼠标划过变色  
+	            _child_a.hover(function () {  
+	                $(this).parent('li').css('background-color', '#eee');  
+	            },function () {  
+	                $(this).parent('li').css('background-color', '#fff');  
+	            });  
+	            //点击选中父radio  
+	            _child_a.click(function () {  
+	                $(this).parent().parent().siblings('label').children('input[type="radio"]').attr('checked','checked');  
+	                $(this).parent().parent('.child_sel').hide();  
+	            });  
+	        }else if (e.type == 'mouseout'){  
+	            var _this = $(this);  
+	            setTimeout(function () {  
+	                if (!_this.children('.child_sel').is(':hover')){  
+	                    _this.children('.child_sel').hide();  
+	                }  
+	            },500);  
+	        }  
+	    });  
+</script>
+</html>

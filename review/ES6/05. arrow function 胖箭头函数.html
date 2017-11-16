@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    胖箭头函数
+</body>
+<script>
+    // let log = function( a ) {
+    //     console.log( a );
+    // }
+
+    // log( "aaaa" );
+
+    // let log = msg => console.log(msg);
+    // log("你好")
+
+    // let log = msg => console.log(msg);
+    // log("你好朋友");
+
+    // 胖箭头函数 标准写法
+    // ( 参数A, 参数B, 参数C ) => { 函数体 }
+
+    // let func2 = ( a, b, c ) => {
+    //     console.log( a );
+    //     console.log( b );
+    //     console.log( c );
+    // };
+    // func2( 1, 2, 3 );
+
+
+
+    // 参数只有一个时，可以省略 前面的括号
+    let func3 = a => {
+        console.log( '哈哈' );
+        console.log( a );
+    }
+    func3( 456 );
+
+
+    // 函数体语句只有一句时，可以省略 大括号
+    // let func4 = a => console.log( a );
+    // func4( "真简单啊" ); 
+
+    // 没有参数 不能省略 前面的 （）
+
+    let func5 = () => console.log(123);
+
+</script>
+</html>

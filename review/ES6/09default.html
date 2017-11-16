@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+ 
+    // default 名为 默认值，就是可以给默认参数
+    // 惰性求值 
+    function say( words = "hello" ) {
+        console.log( "say " + words );
+    }
+    // es6 表达式 惰性求值 
+    say( "你好" ); // say你好
+    say();
+
+
+</script>
+</html>

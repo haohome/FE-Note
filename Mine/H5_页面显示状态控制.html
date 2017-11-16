@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>页面显示播放</title>
+</head>
+<body>
+	<video id="videoElement" src="./media/fun.mp4" width="320" height="240" controls autoplay></video>
+</body>
+<script>
+	// 每当页面 显示 状态 切换的时候 都会 调用这个函数
+	// document.addEventListener( 'visibilitychange', function() {
+	//     console.log( 123 )
+	// })
+	(()=>{
+		// 存在该函数说明可以用
+		if(typeof document.hidden !=="undefined"){
+			document.addEventListener("visibilitychange",function(){
+				console.log("页面切换了")
+				if(document.hidden){
+					videoElement.pause();
+				}
+				else{
+					videoElement.play();
+				}
+			})
+		}
+	})()
+</script>
+</html>

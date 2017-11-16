@@ -1,0 +1,28 @@
+CACHE MANIFEST
+# CACHE MANIFEST 顶行写，标记当前页面 为缓存清单
+
+
+# Version 1.0
+
+CACHE:
+./images/img1.jpg
+./images/img2.jpg
+./images/img3.jpg
+./images/img4.jpg
+./images/img5.jpg
+
+
+# 所有请求的内容，只要启用了 缓存 清单，都应该在清单中配置，是否缓存
+NETWORK:
+# 在有网络的情况下，进行访问的文件
+# 可以使用 * 表示其他文件都在 有网络的状况下进行访问
+# ./css/main.css
+
+*
+
+FALLBACK:
+# 表示 需要访问的 文件 找不到的时候，或者断网访问不到的时候，访问替代文件
+./css/main.css  ./css/offline.css
+
+
+

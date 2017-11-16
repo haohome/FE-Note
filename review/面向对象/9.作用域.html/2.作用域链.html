@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+	//所谓作用域链就是：一个函数体中嵌套了多层函数体，并在不同的函数体中定义了同一变量， 当其中一个函数访问这个变量时，便会形成一条作用域链。
+	foo = "window";
+function first(){
+    var foo = "first";
+    function second(){
+       var foo = "second";
+       console.log(foo);
+    }
+    function third(){
+       console.log(foo);
+    }
+    second(); //second
+    third();  //first
+}
+first();
+</script>
+</html>

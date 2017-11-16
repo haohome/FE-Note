@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .nav-list ul {
+            width: 1200px;
+        }
+        .nav-list li {
+            float: left;
+            list-style: none;
+            background: pink;
+            border: 2px solid blue;
+            padding: 20px;
+        }
+        .nav-list li a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav-list">
+        <!--<li><a href="#" class="col-red">半价SUV</a></li>
+        <li><a href="#">领500神券</a></li>
+        <li><a href="#">农用物资</a></li>
+        <li><a href="#">299减100</a></li>
+        <li><a href="#">亿元礼券</a></li>
+        <li><a href="#">真皮皮衣男</a></li>
+        <li><a href="#">马丁靴女</a></li>
+        <li><a href="#">1元秒杀</a></li>
+        <li><a href="#">蓝牙键盘</a></li>-->
+    </ul>
+
+    <script>
+        let navArr = [ '半价SUV', '领500神券', '农用物资', '299减100',
+                        '亿元礼券', '真皮皮衣男', '马丁靴女', '1元秒杀', '蓝牙键盘'];
+        
+        let htmlStr = "";
+
+        navArr.forEach( value => {
+            let lisStr = `<li><a href="#"> ${ value }</a></li>`;
+            htmlStr += lisStr;
+        })
+
+        let navList = document.querySelectorAll('.nav-list')[0];
+        navList.innerHTML =  htmlStr;
+    </script>
+</body>
+</html>

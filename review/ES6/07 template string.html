@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 所有的空格和缩进都会被保留在输出之中
+    // var str = "123";
+
+    let str = `
+        abc 
+        bcd 
+        efg
+    `;
+
+    // 使用 反引号  `` 来标记 开始和结束
+    // 使用 ${ } 来引用外部变量
+    console.log( str );
+
+    let num = 456;
+    let str2 = `
+        123
+        ${ num }
+    `;
+
+    console.log( str2 );
+
+
+
+</script>
+</html>

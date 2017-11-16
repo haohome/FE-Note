@@ -1,0 +1,25 @@
+CACHE MANIFEST
+# 表示注释
+# CACHE MANIFEST必须顶行写 告诉浏览器这是 缓存清单
+
+# Version 1.1
+
+
+CACHE:
+# 指定我们需要缓存的静态资源，如.css、image、js等
+./images/img1.jpg
+./images/img2.jpg
+./images/img3.jpg
+./images/img4.jpg
+./images/img5.jpg
+
+
+NETWORK:
+# 需要在网络中 进行请求获取的
+# 可以通过 通配符 处理 其他的文件
+# ./css/main.css
+
+*
+
+FALLBACK:
+./css/main.css  ./css/offline.css

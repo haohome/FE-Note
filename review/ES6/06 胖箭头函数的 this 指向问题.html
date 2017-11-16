@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    胖箭头函数 的 this 继承自外层代码块
+</body>
+<script>
+    // class Animal {
+    //     constructor(){
+    //         this.type = 'animal'
+    //     }
+    //     says(say){
+    //         console.log( this ); // this 指向实例对象
+
+    //         setTimeout(function(){
+    //             console.log( this ); // this 指向 window
+    //             console.log( this.type + ' says ' + say )
+    //         }, 1000)
+    //     }
+    // }
+    // var animal = new Animal()
+    // animal.says('hi')  //undefined says hi
+
+
+
+    // // 解决方案 1： 利用作用域链，在上层环境，声明变量 self 暂存 this
+    // class Animal {
+    //     constructor(){
+    //         this.type = 'animal'
+    //     }
+    //     says(say){
+    //         console.log( this ); // this 指向实例对象
+    //         let self = this; // 
+
+    //         setTimeout(function(){
+    //             // this 指向 window
+    //             // self 指向 实例对象
+    //             console.log( self.type + ' says ' + say )
+    //         }, 1000)
+    //     }
+    // }
+    // var animal = new Animal()
+    // animal.says('hi')  //undefined says hi => animal says hi
+
+
+
+
+    // 解决方案 2 通过 bind 改变函数执行的 this 指向
+
+    // class Animal {
+    //     constructor(){
+    //         this.type = 'animal'
+    //     }
+    //     says(say){
+    //         console.log(this); // 指向当前对象
+    //         setTimeout(function(){
+    //             console.log( this.type + ' says ' + say )
+    //         }.bind(this), 1000);
+    //     }
+    // }
+    // var animal = new Animal()
+    // animal.says('hi')  //undefined says hi
+
+
+
+
+    // 解决方案 3 胖箭头函数会继承外层环境中的 this，利用胖箭头函数，就不会有这个问题
+    class Animal {
+        constructor(){
+            this.type = 'animal'
+        }
+        says(say){
+            console.log(this); // 指向当前对象
+
+            setTimeout( ()=> { 
+                console.log( this.type + " says " + say )
+            }, 1000 );
+        }
+    }
+    var animal = new Animal()
+    animal.says('hi')  //undefined says hi => animal say hi
+
+</script>
+</html>

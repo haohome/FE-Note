@@ -1,0 +1,2 @@
+页面初始化，进行整个页面的回流重绘
+https://www.youtube.com/watch?v=ZTnIxIA5KGw

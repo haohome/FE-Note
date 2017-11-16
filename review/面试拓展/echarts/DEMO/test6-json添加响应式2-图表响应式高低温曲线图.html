@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>上海未来五天高低温曲线图(响应式)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+        }
+        #main {
+            display: block;
+            margin: 0 auto;
+        }
+        @media screen and (max-width: 768px) {
+            #main {
+                width: 100%;
+                height: 400px;
+            }
+        }
+        @media screen and (min-width: 768px) and (max-width : 992px) {
+            #main {
+                width: 100%;
+                height: 450px;
+            }
+        }
+        @media screen and (min-width: 992px) and (max-width : 1200px) {
+            #main {
+                width: 100%;
+                height: 500px;
+            }
+        }
+        @media screen and (min-width: 1200px) {
+            #main {
+                width: 1200px;
+                height: 550px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 在绘图前我们需要为 ECharts 准备一个具备高宽的 DOM 容器。 -->
+<div id="main"></div>
+</body>
+<!-- 引入 Echarts  -->
+<script src="echarts.js"></script>
+<!-- 引入 Jquery -->
+<script src="jquery.js"></script>
+<script>
+    // 响应式的调整了 toolbox 和 legend 的位置， 图表的宽高
+
+    $( function() {
+        // 页面参数
+        var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+
+
+        apiUrl = 'test7.xml';    // 由于网络请求测试会等待，所以这里配的本地的，不需要时，请注释该行
+
+
+        var apiData = {
+            "q" : "Shanghai,CN",    // 中国上海
+            "mode" : "JSON",    // 数据返回格式 JSON
+            "apikey" : "acf8692d61e3500ad1edfe30e6ba0771"  // apikey
+        };
+
+        // 初始化
+        var myChart = echarts.init( $('#main')[0] );
+
+        /* 公共函数 */
+        var CtoK = function( c ) { return (c + 273.16).toFixed(2) }; // 摄氏度 转换成 华氏度
+        var KtoC = function( c ) { return (c - 273.16).toFixed(2) }; // 华氏度 转换成 摄氏度
+
+        // 显示标题，图例和空的坐标轴
+        var option = {
+            // 这里是基本的 『原子option』
+            baseOption: {
+                title: {
+                    text: '上海未来五天高低温曲线图',
+                    x:'center'
+                },
+                // 据说这个还是加分项哦
+                tooltip: {  // 提示框组件 是否显示提示框组件，包括提示框浮层和 axisPointer。
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                legend: {   // 图例组件
+                    data: ['最高气温', '最低气温']
+                },
+                xAxis: { data: [] }, // 直角坐标系 grid 中的 x 轴
+                yAxis: {  },  // 直角坐标系 grid 中的 y 轴
+                series: [
+                    {  // 系列列表。每个系列通过 type 决定自己的图表类型
+                        name: '最高气温',
+                        type: 'line',
+                        data: []
+                    },
+                    {
+                        name: '最低气温',
+                        type: 'line',
+                        data: []
+                    }
+                ]
+            },
+            // 这里定义了 media query 的逐条规则
+            media: [
+                {   // 这条里没有写规则，表示『默认』，
+                    option: {    // 即所有规则都不满足时，采纳这个option。
+                        legend: {
+                            right: 'center',    // legend 放在底部中间。
+                            bottom: 0,
+                            orient: 'horizontal'     // legend 横向布局
+                        },
+                        toolbox: {
+                            right: '15%',   // 工具栏 右上 15%
+                            top: 0,
+                            orient: 'horizontal' // 横向布局
+                        }
+                    }
+                },
+                {
+                    // 第一条规则 - 超小屏幕 小于 768
+                    query: {
+                        maxWidth: 768  // 当容器宽度小于 768 时。
+                    },
+                    // 满足的 option
+                    option: {
+                        legend: {
+                            right: 20,   // legend 放置在右侧。
+                            top: '15%',
+                            orient: 'vertical'  // 纵向布局。
+                        },
+                        toolbox: {
+                            right: 20,
+                            bottom: '15%',
+                            orient: 'horizontal'
+                        }
+                    }
+                },
+                {
+                    // 第二条规则 - 小屏幕  768 - 992
+                    query: {
+                        minWidth: 768,
+                        maxWidth: 992 // 当容器宽度 768 - 992 时。
+                    }
+                    // 其他的规则可以自己配，目前需求较少，先只配一个
+                },
+                {
+                    // 第三条规则 - 中屏 992 - 1200
+                    query: {
+                        minWidth: 992,
+                        maxWidth: 1200 // 当容器宽度 992 - 1200 时。
+                    }
+                },
+                {
+                    // 第三条规则 - 大屏 大于 1200
+                    query: {
+                        minWidth: 1200 // 当容器宽度大于 1200 时
+                    }
+                }
+            ]
+        };
+        myChart.setOption( option );
+        // 展示 loading 动画
+        myChart.showLoading();
+
+        // 发送 ajax 请求 获取数据
+        $.get( apiUrl, apiData, function( data ) {
+            // 回调 关闭 loading 动画
+            myChart.hideLoading();
+            if ( data.cod !== "200" ){
+                console.log( '获取数据失败' );
+                return;
+            };
+
+            // 准备数组 保存 最高温度 最低温度 和 日期
+            var tempMax = [], tempMin = [], dateArr = [];
+
+            // 准备数据
+            $.each( data.list, function () {
+                var tMax = +this.main.temp_max;   // 最高气温
+                var tMin = +this.main.temp_min;   // 最低气温
+                tempMax.push( KtoC( tMax ) );
+                tempMin.push( KtoC( tMin ) );
+                dateArr.push( this.dt_txt );    // 日期
+            });
+
+            // 填入数据
+            myChart.setOption( {
+                xAxis: {
+                    data: dateArr  // 日期
+                },
+                series: [
+                    {
+                        name: '最高气温',
+                        data: tempMax
+                    },
+                    {
+                        name: '最低气温',
+                        data: tempMin
+                    }
+                ]
+            });
+        });
+
+        // 响应式 resize 重新布局
+        $(window).resize( function() {
+            myChart.resize( 'auto', 'auto');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,35 @@
+﻿(function (w) {
+    var $ = function (id) { return document.getElementById(id); };
+    w.onload = function () {
+        setTimeout(function () {
+            if ($('div_digg')) {
+                $('div_digg').innerHTML = "<a href=\"#\"><img id=\"goTop\" src=\"http://www.cnblogs.com/images/cnblogs_com/joey0210/531133/t_gotop.png\" alt=\"回到顶部\" /></a><div style=\"padding-bottom: 5px\"><span class=\"icon_favorite\" style=\"padding-top: 2px; padding-bottom: 2px\"></span><a onclick=\"c_follow();\" href=\"javascript:void(0);\" style=\"font-weight: bold; padding-left: 5px;\">关注Joey</a></div>" + $('div_digg').innerHTML;
+                OnScroll();
+                //ToTopClick();
+            }
+        }, 3000);
+        if ($('subtitle'))
+            $('subtitle').innerHTML = "<ul class=\"navlist\"><li><a class=\"menu\" href=\"http://www.cnblogs.com/\">博客园</a></li><li><a href=\"http://www.cnblogs.com/joey0210/\">首页</a></li><li><a href=\"http://q.cnblogs.com/\">博问</a></li><li><a href=\"http://home.cnblogs.com/ing/\">闪存</a></li><li><a href=\"http://www.cnblogs.com/joey0210/admin/EditPosts.aspx?opt=1\">新随笔</a></li><li><a href=\"http://space.cnblogs.com/msg/send/joey_zy0210\">联系</a></li><li><a href=\"http://www.cnblogs.com/joey0210/rss\">订阅</a></li><li><a href=\"http://www.cnblogs.com/joey0210/admin/EditPosts.aspx\">管理</a></li></ul>" + $('subtitle').innerHTML;
+    }
+    function OnScroll() {
+        w.onscroll = function () {
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            var goTop = $("goTop");
+            if (t >= 300) {
+                goTop.style.display = "block";
+            } else {
+                goTop.style.display = "none";
+            }
+        }
+    }
+//    function ToTopClick() {
+//        $("goTop").onclick = function () {
+//            var t = document.documentElement.scrollTop || document.body.scrollTop;
+//            while (t > 10) {
+//                window.scrollBy(100, t - 10);
+//                t = document.documentElement.scrollTop || document.body.scrollTop;
+//            }
+//        }
+//    }
+
+})(window);

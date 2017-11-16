@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var str = 'aaaabbbccccddfgh';
+		
+		//方法一：
+		var obj = {};
+		for(var i=0;i<str.length;i++){
+			var v = str.charAt(i);
+			if(obj[v] && obj[v].value == v){
+			obj[v].count = ++ obj[v].count;
+			}	else{
+				obj[v] = {};
+				obj[v].count = 1;
+				obj[v].value = v;
+			}
+		}
+		for(key in obj){
+		document.write(obj[key].value +'='+obj[key].count+' '); // a=4 b=3 c=4 d=2 f=1 g=1 h=1
+		}
+
+		//方法二：
+		 function eleCount(ele) {
+		    var count = 0;
+		    var pos = str.indexOf(ele)
+		    while (pos !== -1) {
+		      count++;
+		      pos = str.indexOf(ele, pos + 1);
+		    }
+		    return count
+  		}
+  		eleCount('a');
+  		eleCount('b');
+  		eleCount('c');
+  		eleCount('d');
+  		eleCount('f');
+  		eleCount('g');
+  		eleCount('h');
+  		 
+
+	</script>
+</body>
+</html>

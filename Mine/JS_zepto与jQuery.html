@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script src="zepto.js"></script>
+	<!-- <script src="jquery-3.2.1.min.js"></script> -->
+	<script>
+		// (function($) {
+		//      $(function() {
+		//          var $insert = $('<p>jQuery 插入</p>', {
+		//              id: 'insert-by-jquery'
+		//          });
+		//          $insert.appendTo($('body'));
+		//      });
+		// })(window.jQuery);   
+		// <p>jQuery 插入<p>
+
+		Zepto(function($) {  
+		    var $insert = $('<p>Zepto 插入</p>', {
+		        id: 'insert-by-zepto'
+		    });
+		    $insert.appendTo($('body'));
+		});
+		// <p id="insert-by-zepto">Zepto 插入</p>
+		// (function($) {
+		//     $(function() {    
+		//         $script = $('<script />', {
+		//             src: 'http://cdn.amazeui.org/amazeui/1.0.1/js/amazeui.js',
+		//             id: 'ui-jquery'
+		//         });
+
+		//         $script.appendTo($('body'));
+
+		//         $script.on('load', function() {
+		//             console.log('jQ script loaded');
+		//         });
+		//     });
+		// })(window.jQuery);
+
+		Zepto(function($) {  
+		    $script = $('<script />', {
+		        src: 'http://cdn.amazeui.org/amazeui/1.0.1/js/amazeui.js',
+		        id: 'ui-zepto'
+		    });
+
+		    $script.appendTo($('body'));
+
+		    $script.on('load', function() {
+		        console.log('zepto script loaded');
+		    });
+		});
+	</script>
+</body>
+</html>

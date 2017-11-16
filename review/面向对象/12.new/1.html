@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+	function Animal(name){
+        this.name = name;
+}
+
+// 函数及对象  函数对象的成员只能通过函数名.xxx来访问
+// 
+// 术语：一般把函数当成
+ Animal.color = "black";
+ // 每个函数都有个属性 prototype
+ // prototype的成员只能被new出来的实例对象访问到
+ Animal.prototype.say = function(){
+        console.log("I'm " + this.name);
+ };
+
+ // 构造函数调用，得到一个实例
+ var cat = new Animal("cat");
+ 
+ console.log(
+       cat.name,  
+       cat.height 
+ );
+ cat.say(); 
+ 
+ console.log(
+       Animal.name, //Animal  ？？？？函数有个默认属性name属性 
+       Animal.color 
+ );
+ Animal.say(); 
+</script>
+</html>
