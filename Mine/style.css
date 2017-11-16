@@ -1,0 +1,41 @@
+#container{
+  width:800px;
+  margin:0 auto;
+}
+form{
+  border:1px solid #000;
+  width:200px;
+  padding:20px;
+}
+input{
+  margin:5px;
+  padding:5px;
+  background:lightyellow;
+  border:.1px solid #000;
+}
+input[type="button"],button{
+  margin:5px;
+  padding:5px;
+  height:30px;
+  width:auto;
+  border:none;
+  background:#333;
+  border-radius:3px;
+  color:#fff;
+  box-shadow: 0 0 1px #000;
+  cursor:pointer;
+}
+input[type="button"]:disabled,button:disabled{
+  background:#eee;
+  color:#808080;
+  cursor:default;
+}
+ul{
+  background:#eee;
+  border:none;
+  border-radius:3px;
+  box-shadow: 0 0 1px #000
+}
+div span{
+  color:red;
+}

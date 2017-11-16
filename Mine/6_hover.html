@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#box{
+			width:200px;
+			height:200px;
+			border:1px solid #000;
+			text-align:center;
+			line-height:200px;
+		}
+		#box>div{
+			display:inline-block;
+			width:100px;
+			height:100px;
+			line-height:100px;
+			text-align: center;
+			background:green;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div>你还</div>
+	</div>
+	<script src="jquery-3.2.1.js"></script>
+	<script>
+		$("#box").hover(function(){
+			console.log(12);
+		})
+	</script>
+</body>
+</html>

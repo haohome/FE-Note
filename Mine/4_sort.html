@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>排序</title>
+</head>
+<body>
+	<script>
+		var arr=[23,52,31,3,2,42]; 
+		for(var i=0;i<arr.length;i++){//从小到大排序
+			for(var j=0;j<arr.length-i;j++){
+				if(arr[j]>arr[j+1]){
+					arr[j]=arr[j]^arr[j+1];
+					arr[j+1]=arr[j+1]^arr[j]
+					arr[j]=arr[j]^arr[j+1];
+				}
+			}
+		}
+		console.log(arr)
+		var arr1=[23,52,31,3,2,42];//从大到小排序
+		for(var i=0;i<arr1.length;i++){
+			for(var j=i;j<arr1.length;j++){
+				if(arr1[j]<arr1[j+1]){
+					arr1[j]=arr1[j]^arr1[j+1];
+					arr1[j+1]=arr1[j+1]^arr1[j]
+					arr1[j]=arr1[j]^arr1[j+1];
+				}
+			}
+		}
+		console.log(arr1)
+	</script>
+</body>
+</html>

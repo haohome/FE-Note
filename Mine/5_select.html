@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义下拉框</title>
+	<style>
+	ul{
+		padding:0;
+		margin:0;
+	}
+	#sel{
+		width:200px;
+		height:40px;
+		position:relative;
+		-webkit-box-sizing:border-box;
+		        box-sizing:border-box;
+	}
+	#sel>input{
+		width:200px;
+		height:40px;
+		margin:0;
+		-webkit-box-sizing:border-box;
+		        box-sizing:border-box;
+		cursor:pointer;
+	}
+	#sel>ul{
+		position:absolute;
+		top:40px;
+		left:0;
+		width:100%;
+		height:0;
+		overflow: hidden;
+		list-style:none;
+		-webkit-transition:all .04s linear;
+		-o-transition:all .04s linear;
+		transition:all .04s linear;
+		background:green;
+	}
+	#sel>ul>li{
+		width:100%;
+		height:40px;
+		padding:5px;
+		line-height:30px;
+		-webkit-box-sizing:border-box;
+		        box-sizing:border-box;
+		cursor:pointer;
+	}
+	#sel>ul>li.active{
+		background:#eee;
+	}
+	</style>
+</head>
+<body>
+	<div id="sel">
+		<input type="text" id="input" value="下拉框11">
+		<ul id="selItem">
+			<li>下拉框11</li>
+			<li>下拉框12</li>
+			<li>下拉框13</li>
+			<li>下拉框14</li>
+		</ul>
+	</div>
+	<script>
+		var sel=document.getElementById("sel");
+		var item=document.getElementById("selItem");
+		var num=item.children.length;
+		sel.onclick=function(){
+			if(item.style.height==0||item.style.height=="0px"){
+				item.style.height=(num*40)+"px";
+				item.onmouseover=function(e){
+					var that=e.target;
+					var liList=that.parentElement.querySelectorAll("li");
+					for( var i of liList){
+						i.className="";
+					}
+					that.className="active";
+					that.onclick=function(){
+						input.value=this.innerHTML;
+					}
+				}
+			}else{
+				item.style.height=0;
+			}
+		}
+	</script>
+</body>
+</html>

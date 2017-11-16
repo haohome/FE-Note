@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <title>
+      实时查询城市通过姓名或拼音简写
+    </title>
+  </head>
+  <meta charset = "utf-8"/>
+  <script type="text/javascript" src="jquery-3.2.1.js"></script>
+  <style>
+    ul>li{
+      ;list-style: none
+    }
+  </style>
+  <body>
+    <input id="searchCityName" style="width: 100%;" type="text" placeholder="中文 / 拼音首字母"/>
+    <ul>
+      <li pinyin="bj" cityname="北京">
+        <a href="/cityBranch/12.html">
+          北京
+        </a>
+      </li>
+      <li pinyin="dl" cityname="大连">
+        <a href="/cityBranch/14.html">
+          大连
+        </a>
+      </li>
+      <li pinyin="sh" cityname="上海">
+        <a href="/cityBranch/13.html">
+          上海
+        </a>
+      </li>
+      <li pinyin="jn" cityname="济南">
+        <a href="/cityBranch/15.html">
+          济南
+        </a>
+      </li>
+      <li pinyin="gz" cityname="广州">
+        <a href="/cityBranch/17.html">
+          广州
+        </a>
+      </li>
+      <li pinyin="jh" cityname="金华">
+        <a href="/cityBranch/18.html">
+          金华
+        </a>
+      </li>
+      <li pinyin="wh" cityname="武汉">
+        <a href="/cityBranch/19.html">
+          武汉
+        </a>
+      </li>
+      <li pinyin="nj" cityname="南京">
+        <a href="/cityBranch/20.html">
+          南京
+        </a>
+      </li>
+      <li pinyin="sz" cityname="深圳">
+        <a href="/cityBranch/22.html">
+          深圳
+        </a>
+      </li>
+      <li pinyin="tj" cityname="天津">
+        <a href="/cityBranch/21.html">
+          天津
+        </a>
+      </li>
+      <li pinyin="cd" cityname="成都">
+        <a href="/cityBranch/24.html">
+          成都
+        </a>
+      </li>
+      <li pinyin="ly" cityname="临沂">
+        <a href="/cityBranch/25.html">
+          临沂
+        </a>
+      </li>
+      <li pinyin="cc" cityname="长春">
+        <a href="/cityBranch/26.html">
+          长春
+        </a>
+      </li>
+      <li pinyin="hz" cityname="杭州">
+        <a href="/cityBranch/27.html">
+          杭州
+        </a>
+      </li>
+      <li pinyin="nb" cityname="宁波">
+        <a href="/cityBranch/28.html">
+          宁波
+        </a>
+      </li>
+      <li pinyin="qd" cityname="青岛">
+        <a href="/cityBranch/29.html">
+          青岛
+        </a>
+      </li>
+      <li pinyin="sy" cityname="沈阳">
+        <a href="/cityBranch/33.html">
+          沈阳
+        </a>
+      </li>
+    </ul>
+    <script>
+      function searchCity() {
+        var searchCityName = $("#searchCityName").val();    
+        if (searchCityName == "") {
+          $("ul li").show();
+        } 
+        else {
+          $("ul li").each(function() {
+                var pinyin = $(this).attr("pinyin");            
+                var cityName = $(this).attr("cityName");            
+                if (pinyin.indexOf(searchCityName) != -1|| cityName.indexOf(searchCityName) != -1) {
+                  $(this).show();
+                } 
+                else {
+                  $(this).hide();
+                }
+              });
+        }
+      }
+      $('#searchCityName').bind('input propertychange', function() {
+        searchCity();
+      }); 
+      </script>
+  </body>
+</html>
+<!-- 1、当我想实现在输入框内实时查询列表值，想到的第一种方案是用ajax，但是想了一下发现列表的值基本是固定的，为什么不一次加载出来呢，所以把后台代码改了一下，将所有城市详情加载出来。
+2、输入框内值改变需要触发事件，我第一个想法是用onchange，但是事实上onchange是输入框值改变且输入框失去焦点，所以我最终用了keyup。keyup在电脑上测试都没有问题，但是在微信端，怎么都不生效。于是将keyup替换成了最终的 bind(‘input propertychange', function() {} 。
+3、在判断城市字符是否包含输入框内的字符时，我用contains函数，在火狐下测试没有任何问题，但是在chrome和微信客户端不生效。最后将contains替换成了indexOf。 -->
+
