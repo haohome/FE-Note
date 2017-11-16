@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="content">
+    <p>李刚</p>
+    <p>ligang</p>
+    <p>http://blog.csdn.net/ligang2585116</p>
+</div>
+<script>
+  var div = document.getElementById("content");
+  console.log(div.hasChildNodes());   // true
+  console.log(div.ownerDocument);     // #document
+
+  var children = div.childNodes;
+  console.log(children[0]);       // <p>李刚</p>  注意：这里有可能是#text，格式化回车缩进导致！！
+  console.log(children.item(1));  // <p>ligang</p>
+
+  var p1 = div.firstChild;
+  console.log(p1.parentNode);         // <div id=​"content">​…​</div>​
+  console.log(p1.previousSibling);    // null
+  console.log(p1.nextSibling);        // <p>ligang</p>
+</script>
+</body>
+</html>

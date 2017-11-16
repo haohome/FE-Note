@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="content">
+    <p>李刚</p>
+  </div>
+  <p id="blog">http://blog.csdn.net/ligang2585116</p>
+<script>
+  var div = document.getElementById("content"),
+    p = document.getElementById("blog");
+  div.appendChild(p);//把pappend到content里
+  var ele=p.cloneNode(true);
+  div.appendChild(ele);
+</script>
+</body>
+</html>
