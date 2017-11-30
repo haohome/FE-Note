@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./js/jquery/jquery-1.12.4.min.js"></script>
+  <script src="./js/layer/layer.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <button id="test1">测试1弹出一个页面层</button>
+  <button id="test2">测试2弹出一个loading层</button>
+  <button id="test3">测试3弹出一个tips层</button>
+  <button id="test4">测试4确认框</button>
+  <script>
+    //弹出一个页面层
+  $('#test1').on('click', function(){
+    layer.open({
+      type: 1,
+      shade: [0.8, '#393D49'],
+      shadeClose:true,//点击遮罩关闭
+      area: ['600px', '360px'],
+      time: 5000,
+      anim:6,
+      maxmin: true,
+      content: '\<\div style="padding:20px;">自定义内容\<\/div>'
+    });
+  });
+  //弹出一个loading层
+  $('#test2').on('click', function(){
+    var ii = layer.load(0);
+    //此处用setTimeout演示ajax的回调
+    setTimeout(function(){
+      layer.close(ii);
+    }, 1000);
+  });
+  //弹出一个tips层
+  $('#test3').on('click', function(){
+    layer.tips('Hello tips!', '#test3');
+  });
+  $("#test4").on('click',function(){
+    layer.confirm('纳尼？', {
+  btn: ['按钮一', '按钮二', '按钮三','按钮四'], //可以无限个按钮
+  btn3: function(index, layero){
+    //按钮【按钮三】的回调
+    console.log("按钮三")
+  },
+  btn4: function(index, layero){
+    //按钮【按钮四】的回调
+    console.log("按钮四")
+  },
+
+} ,
+function(index, layero){
+  console.log("按钮一")
+  //按钮【按钮一】的回调
+}, function(index){
+  console.log("按钮二")
+  //按钮【按钮二】的回调
+  });
+  })
+  </script>
+</body>
+</html>
