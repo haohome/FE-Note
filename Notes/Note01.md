@@ -1,0 +1,12 @@
+* apache-maven-3.1.1
+* maven helper
+* tinyui
+
+* 配置文件搜索器路径
+```bank-deploy>bank-deploy-supplychain>src>main>resources>application.xml```
+* 参考  Biz:
+``` bank-supplychain>supplychain-biz>src>main>java>com>hundsun>tbsp>web>bank>supcn>biz>pattern>impl>patternQueryBizlmpl```
+
+data-formatter:
+格式化单元格内容，function(value, row, index), value：该cell本来的值，row：该行数据，index：该行序号（从0开始）
+
