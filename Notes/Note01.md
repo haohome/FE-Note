@@ -10,3 +10,8 @@
 data-formatter:
 格式化单元格内容，function(value, row, index), value：该cell本来的值，row：该行数据，index：该行序号（从0开始）
 
+* controller:
+只要改动controller,就要重新打包:单击controller文件夹,右键run Maven 选择clean install
+再 jetty debug
+
+* #tsbpUploadFileCheck  上传附件检查
