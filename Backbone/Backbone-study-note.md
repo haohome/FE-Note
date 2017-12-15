@@ -176,7 +176,7 @@ Book = Backbone.Model.extend({
 
   //基于underscore这个js库，还可以使用each的方法获取collection中的数据
   bookShelf.each(function(book){
-      alert(book.get('title'));
+      console.log(book.get('title'));
   });
 ```
 2.使用fetch从服务器端获取数据,使用reset渲染
@@ -193,10 +193,23 @@ showAllBooks = function(){
     reset: true, 
     success:function(collection,response, options){
         collection.each(function(book){
-            alert(book.get('title'));
+            console.log(book.get('title'));
         });
-    },error:function(collection, response, options){
-        alert('error');
+    },
+    error:function(collection, response, options){
+        console.log('error');
     }
+  });
+```
+3. 创建collection推送到server端
+创建数据，其实就是调用collection的create方法，POST对应的Model对象（json数据）到配置好的url上。之后会返回一个model的实例，如下面代码中的onebook。
+```JavaScript
+  var NewBooks = Backbone.Collection.extend({
+    model: Book,
+    url: '/books/'
+  });
+  var books = new NewBooks;
+  var onebook = books.create({
+    title: "I'm coming",
   });
 ```
