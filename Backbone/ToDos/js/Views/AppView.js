@@ -10,6 +10,7 @@ app.AppView=Backbone.View.extend({
     app.todoList.fetch();
   },
   addOne(todo){
+    console.log(todo)
     var todoView=new app.TodoView({model:todo})
     $('#todo-list').append(todoView.render().el);
   },
