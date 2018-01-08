@@ -21,3 +21,6 @@ data-formatter:
 - 配置maven setting
 - 配置configuration
 - .iml是intellij idea的工程配置文件，里面是当前projec的一些配置信息
+
+
+List<Dto>  命名 参考渠道的字段

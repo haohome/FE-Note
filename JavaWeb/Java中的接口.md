@@ -1,0 +1,45 @@
+title: Java中的接口
+date: 2018-1-7
+categories: Java
+tags: [Java,学习记录]
+keywords: Interface,implements
+---
+### 1.接口的概念
+接口定义了某一批类所需要遵守的规范,接口不关心这些类的内部数据,也不关心这些类里方法的实现细节,它只规定这些类里必须提供某些方法;
+### 2.接口定义
+定义接口不再使用class关键字,而使用interface关键字
+#### 2.1 基本语法
+```Java
+[修饰符public] [abstract] interface 接口名 [extends 父接口1,父接口2...]
+{
+  零个到多个常量定义...
+  零个到多个抽象方法的定义...
+}
+```
+接口是开放的（被继承、被实现），修饰符使用public，不能使用private和protected
+- 常量
+接口中的属性是常量,即使定义时不添加public static final修饰符,系统也会自动加上
+- 方法
+接口中的方法只能是抽象方法,总是使用,即使定义时不添加public abstract修饰符,系统也会自动加上
+### 3.使用接口
+一个类可以实现一个或多个接口,实现接口使用implements关键字
+> 阶层父类实现接口的语法:
+```java
+[修饰符] class 类名 extends 父类 implements 接口1,接口2...
+{
+  类体部分  //如果继承了抽象类,需要实现继承的抽象方法;要实现接口中的抽象方法
+}
+```
+> **如果要继承父类,继承父类必须在实现接口之前**
+
+- 补充:接口使用过程中,还经常与匿名内部类配合使用
+> 匿名内部类就是没有名字的内部类,多用于关注实现而不关注实现类的名称 
+> 语法格式
+```java
+Interface i=new Interface(){
+  public void method(){
+    System.out.println("匿名内部类实现接口的方式");
+  }
+}
+i.method();//直接调用
+```
