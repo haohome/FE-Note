@@ -1,0 +1,1 @@
+在截取字符串时常常会用到substr()、substring()、slice()方法
