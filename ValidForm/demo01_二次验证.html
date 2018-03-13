@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/jquery-1.9.1.min.js"></script>
+  <script src="./js/Validform_v5.3.2.js"></script>
+</head>
+<body>
+  <form action="">
+      密码<input datatype="n2-6" name="pw" errormsg="请输入2-6位数字" nullmsg="请填写密码">
+      确认密码<input datatype="n2-6" recheck="pw" errormsg="俩次密码不一致" nullmsg="请填写密码1">
+    <input type="submit" value="提交">
+  </form>
+  <script>
+    	
+  $(".demoform").Validform();
+
+  </script>
+</body>
+</html>
