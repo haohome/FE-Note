@@ -320,6 +320,92 @@ module.exports = {
 };
 ```
 
+#### loader
+
+- PostCSS
+
+[PostCSS](https://github.com/postcss/postcss)是一个利用JS插件来对CSS进行转换的工具，这些插件非常强大，强大到无所不能。其中，[Autoprefixer](https://github.com/postcss/autoprefixer)就是众多PostCSS插件中最流行的一个。
+
+安装方法:
+
+`npm i --save-dev postcss`
+
+一般postcss会结合autoprefixer一起使用,autoprefixer是css的后处理器,可为css添加浏览器前缀,使兼容不同浏览器,安装方法:
+
+`npm install --save-dev autoprefixer`
+
+**配置1:**
+
+```JavaScript
+ {
+    test: /\.less$/,
+    exclude: /node_modules/,
+		use: ExtractTextPlugin.extract({fallback: "style-loader",use: 'css-loader!postcss-loader!less-loader'})
+ }
+/*可以处理less或sass*/
+```
+
+这种方式需要在项目根目录下添加`psotcss-config.js`文件,里面添加
+
+```JavaScript
+module.exports = {  
+  plugins: [  
+      require('autoprefixer')({browsers: ['last 5 versions']})  
+  ]  
+}  
+```
+
+**配置2:**
+
+```JavaScript
+{
+  test: /\.less$/,
+  exclude: /node_modules/,
+  use: ExtractTextPlugin.extract({
+    fallback: "style-loader",
+    use: [
+      {loader: 'css-loader'}, 
+      {loader: 'postcss-loader',
+       options: {plugins: [require('autoprefixer')({browsers: ['last 5 versions']})
+       ]}
+      },
+      {loader: 'less-loader'}]
+  )}
+}
+```
+
+这种配置是将postcss配置依赖直接放在里面了
+
+- babel
+
+安装`npm install --save-dev babel-loader babel-core`
+
+安装: `npm install babel-preset-env --save-dev`
+
+在根目录下新建`.babelrc` 文件,添加
+
+```JavaScript
+{
+  "presets": ["env"]
+}
+```
+
+```JavaScript
+{ test: /\.js$/, 
+  exclude: /(node_modules|bower_components)/,
+    use: {
+      loader: 'babel-loader',
+        options: {							//
+          presets: ["env"]			//如果有.babellrc文件这个配置可省略
+        }												//
+    }
+},
+```
+
+
+
+
+
 ###  4.环境构建
 
 ####  4.1 配置
