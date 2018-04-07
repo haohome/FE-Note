@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="btn">发送jsonp请求</button>
+	<script>
+		function doResponse(resp){
+			console.log(resp);
+			for(var i in resp){
+				console.log(i);
+			}
+		}
+		$("#btn").click(function() {
+			// 	$.getJSON("jsonp.php?callback=?",data=>{
+			// 	console.log(data);
+			// });
+			/*
+			$.ajax({
+				type:"GET",
+				url:"https://www.haohome.top/demo/jsonp.php?callback=doResponse",
+				success:data=>{
+					console.log("返回数据",data);
+				},
+				dataType:"jsonp"
+			})
+			*/
+			$("body").append(`<script src="http://127.0.0.1/jsonp.php?callback=doResponse"><\/script>`);
+		});
+	</script>
+</body>
+</html>

@@ -2261,7 +2261,7 @@ webpack 是一个资源处理工具,它的出现节省了我们的人力和时�
   - Object.create
 
     ```javascript
-    var p={name='p'};
+    var p={name:'p'};
     var o4=Object.create(p);
     ```
 
