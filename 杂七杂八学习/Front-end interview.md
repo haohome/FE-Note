@@ -68,12 +68,30 @@ test();
 > IE模型：border-box
 
 JS获取盒模型对应的宽高：
-
 内联样式的宽高:dom.style.width/height
-
 元素在页面中的宽高:dom.currentStyle.width/height(只支持IE)
-
 widow.getComputedStyle(dom).width/height(兼容Chrome/Firefox)
+
+```css
+  <style>
+    .test {
+      box-sizing: content-box;
+      border: 5px solid #f00;
+      padding:5px;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+  <div class="test"></div>
+/*
+content-box的计算公式会把宽高的定义指向 content,border和 padding 另外计算,
+也就是说 content + padding + border = 120px(盒子实际大小)
+而border-box的计算公式是总的大小涵盖这三者, content 会缩小,来让给另外两者
+content(80px) + padding(5*2px) + border(5*2px) = 100px 
+*/
+```
+
+
 
 -----
 
@@ -87,6 +105,13 @@ widow.getComputedStyle(dom).width/height(兼容Chrome/Firefox)
 2. BFC的区域不会与浮动元素的box发生重叠;
 3. BFC在页面上是一个独立的容器,外面的元素不会影响里面的元素,里面不会影响外面;
 4. 计算BFC元素高度时,浮动元素也会参与计算; 
+
+创建BFC:
+
+1.  float为left或right;
+2. position不是static或relative
+3. display为table
+4. overflow不是visible
 
 -----
 
@@ -131,41 +156,7 @@ widow.getComputedStyle(dom).width/height(兼容Chrome/Firefox)
 <body>
   <div class="sector"></div>
 </body>
-
 </html>
-```
-
-------
-
-### Q: `box-sizing`常用的属性有哪些? 分别有啥作用?
-
-`box-sizing`有两个值:`content-box(W3C标准盒模型)`,`border-box(怪异模型)`,
-
-这个css 主要是改变盒子模型大小的计算形式
-
-可能有人会问`padding-box`,这个之前只有 Firefox 标准实现了,目前50+的版本已经废除;
-
-用一个栗子来距离,一个`div`的宽高分别`100px`,`border`为`5px`,`padding`为`5px`
-
-```css
-  <style>
-    .test {
-      box-sizing: content-box;
-      border: 5px solid #f00;
-      padding:5px;
-      width: 100px;
-      height: 100px;
-    }
-
-  </style>
-  <div class="test"></div>
-<!--
-content-box的计算公式会把宽高的定义指向 content,border和 padding 另外计算,
-也就是说 content + padding + border = 120px(盒子实际大小)
-
-而border-box的计算公式是总的大小涵盖这三者, content 会缩小,来让给另外两者
-content(80px) + padding(5*2px) + border(5*2px) = 100px
--->
 ```
 
 ------
@@ -174,7 +165,7 @@ content(80px) + padding(5*2px) + border(5*2px) = 100px
 
 常用的一般为三种`.clearfix`, `clear:both`,`overflow:hidden`;
 
-比较好是 `.clearfix`,伪元素万金油版本...后两者有局限性..等会再扯
+比较好是 `.clearfix`,伪元素万金油版本...后两者有局限性..
 
 ```css
 .clearfix:after {
@@ -185,11 +176,10 @@ content(80px) + padding(5*2px) + border(5*2px) = 100px
   clear: both;
   height: 0;
 }  
-<!--
+/*
 为毛没有 zoom ,_height 这些...IE6,7这类需要 csshack 不再我们考虑之内了
 .clearfix 还有另外一种写法...
--->
-
+*/
 .clearfix:before, .clearfix:after {
 	content:"";
 	display:table;
@@ -201,7 +191,6 @@ content(80px) + padding(5*2px) + border(5*2px) = 100px
 .clearfix{
     zoom:1;
 }
-
 <!--
 用display:table 是为了避免外边距margin重叠导致的margin塌陷,
 内部元素默认会成为 table-cell 单元格的形式
@@ -215,9 +204,7 @@ content(80px) + padding(5*2px) + border(5*2px) = 100px
 
 ------
 
-### Q: CSS 中`transition`和`animate`有何区别? `animate` 如何停留在最后一帧!
-
-这种问题见仁见智,我的回答大体是这样的..待我捋捋.
+### Q: transition`和`animate`有何区别?
 
 `transition`一般用来做过渡的, 没时间轴的概念, 通过事件触发(一次),没中间状态(只有开始和结束)
 
@@ -232,7 +219,7 @@ animation-fill-mode: forwards;
 <!--backwards则停留在首帧,both是轮流-->
 ```
 
-让我们来举个栗子....自己新建一个 html 跑一下....
+让我们来举个[栗子](https://codepen.io/hfood/pen/KorZvj/)....自己新建一个 html 跑一下....
 
 ```html
 <!DOCTYPE html>
@@ -250,6 +237,7 @@ animation-fill-mode: forwards;
       width: 100px;
       height: 100px;
       position:absolute;
+      animation: moveChangeColor  ease-in 2.5s 1  forwards running;
       /*
       简写的姿势排序
       @keyframes name : 动画名
@@ -262,7 +250,6 @@ animation-fill-mode: forwards;
       play-state running 开始,paused 暂停 ....
        更多的参数去查文档吧..我就不一一列举了
       */
-      animation: moveChangeColor  ease-in 2.5s 1  forwards running;
     }
     @keyframes moveChangeColor {
        from {
