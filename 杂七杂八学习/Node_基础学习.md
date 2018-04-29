@@ -1,5 +1,5 @@
 ------
-title: Node基础学习
+title: Node.js学习记录
 categories: JavaScript
 date: 2018-1-21
 tags: node
@@ -93,11 +93,11 @@ fs.realpath('./data.txt',function(err,resolvedPath){
 ```
 
 2.3 文件重命名
-fs.rename方法:fs.rename(oldPath, newPath, callback(err))
+fs.rename方法:`fs.rename(oldPath, newPath, callback(err))`
 
 2.4 文件读写
-fs.readFile方法:fs.readFile(path[, options], callback(err,data))
-fs.writeFile方法:fs.writeFile(file, data[, options], callback(err))
+fs.readFile方法:`fs.readFile(path[, options], callback(err,data))`
+fs.writeFile方法:`fs.writeFile(file, data[, options], callback(err))`
 - options
 > - encoding <string> | <null> 默认 = 'utf8'
 >   如果 data 是一个 buffer，则忽略 encoding 选项。它默认为 'utf8'.
@@ -337,18 +337,18 @@ app.get('/user/:id', function (req, res, next) {
      > 配置cors:
 
 
-     ```JavaScript
-     var express = require('express')
-     var cors = require('cors')
-     var app = express()
-     var corsOptions = { //配置跨域选项 
-       origin: 'http://example.com',
-       optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
-     }
-      app.get('/products/:id', cors(corsOptions), function (req, res, next) {
-       res.json({msg: '跨域仅限域名:example.com.'})
-     })
-      app.listen(80, function () {
-       console.log('80端口服务器可以跨域')
-     })
-     ```
+```JavaScript
+ var express = require('express')
+ var cors = require('cors')
+ var app = express()
+ var corsOptions = { //配置跨域选项 
+   origin: 'http://example.com',
+   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+ }
+  app.get('/products/:id', cors(corsOptions), function (req, res, next) {
+   res.json({msg: '跨域仅限域名:example.com.'})
+ })
+  app.listen(80, function () {
+   console.log('80端口服务器可以跨域')
+ })
+```

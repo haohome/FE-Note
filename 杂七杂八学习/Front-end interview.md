@@ -204,7 +204,7 @@ content(80px) + padding(5*2px) + border(5*2px) = 100px
 
 ------
 
-### Q: transition`和`animate`有何区别?
+### Q: transition`和`animate有何区别?
 
 `transition`一般用来做过渡的, 没时间轴的概念, 通过事件触发(一次),没中间状态(只有开始和结束)
 
@@ -343,27 +343,20 @@ ES6出来的`Symbol`也是原始数据类型 ，表示独一无二的值
 
 ```JavaScript
 // example
-
 // get Node
 var element = document.querySelector('#test');
-
 // 追加
 element.appendChild(Node);
-
 // 删除
 element.removeChild(Node);
-
 // 查找
 element.nextSibling // 获取元素之后的兄弟节点 , 会拿到注释文本,空白符这些
 element.nextElementSibling  // 等同, 获取标签(不会拿到注释文本这些)
-
 element.previousSibling // 和上面同理,往前找兄弟节点
 element.previousElementSibling
-
 // 改动,比如 属性这些
 element.setAttribute(name, value); // 增加属性
 element.removeAttribute(attrName); //删除属性
-
 // 来一个简易的练习题,随便一个网页追加插入一块DOM(非覆盖:不能 innerHTML);
 /*
 <div id="test">
@@ -401,15 +394,14 @@ element.appendChild(test); //追加到某个节点区域
 至于有哪些要要点,来一个简短的`ajax`请求
 
 ```JavaScript
-var xhr = new XMLHttpRequest(); // 声明一个请求对象
+var xhr = new XMLHttpRequest() ? new XMLHttpRequest():new ActiveXObject("MicroSoft.XMLHttp"); // 声明一个请求对象
 xhr.onreadystatechange = function(){
-    if(xhr.readyState === 4){  // readyState 4 代表已向服务器发送请求
-        if(xhr.status === OK){ // // status 200 代表服务器返回成功
-            console.log(xhr.responseText); // 这是返回的文本
-        } else{
-            console.log("Error: "+ xhr.status); // 连接失败的时候抛出错误
-        }
-    }
+  // readyState 4 代表已向服务器发送请求
+  if(xhr.readyState === 4&&xhr.status === 200){ // status 200 代表服务器返回成功
+    console.log(xhr.responseText); // 这是返回的文本
+  } else{
+    console.log("Error: "+ xhr.status); // 连接失败的时候抛出错误
+  }
 }
 xhr.open('GET', 'xxxx');
 // 如何设置请求头? xhr.setRequestHeader(header, value);
@@ -431,7 +423,6 @@ var add = (function() {
     return console.log(count++);
   };
 })();
-
 add(); // 0
 add(); // 1
 add(); // 2
@@ -482,11 +473,9 @@ let arr = [...new Set(['2018-03-05', '2013-06-12','2019-03-12','2018-03-05','201
 
 ```JavaScript
 // 我们依旧可以用上面的 sort 的原理实现乱序
-
 let tempArr = [1,2,3,4,5,'6',7,'8','a','b','z'].sort(function(){
   return Math.random() > 0.5 ? -1 : 1;
 })
-
 // 因为里面有随机数,所以答案没有标准答案,我这边跑了一次是输出这个
 //["6", "z", 3, "b", 5, 2, 7, "8", "a", 1, 4]
 ```
@@ -505,9 +494,7 @@ function MaxMinPlus(arr) {
   // 返回最大值与最小值之差
   return Array.isArray(arr) ? Math.max.apply(Math, arr) - Math.min.apply(Math, arr) : console.log('传入的不是数组亦或者未能解决的错误')
 }
-
 // 结果是 20
-
 // 若是要完善的话,要考虑传入的是非数组,
 //传入字符串的时候要判断,然后切割为数组..
 // 都要考虑进去代码量不短
@@ -518,28 +505,24 @@ function MaxMinPlus(arr) {
 ### Q: 请给`Array`实现一个方法,去重后返回重复的字符(新数组)
 
 ```JavaScript
-  var testArr = [1,6,8,3,7,9,2,7,2,4,4,3,3,1,5,3];
-    
-  Array.prototype.extraChar = function(){
-      var cacheExtraChar = []; // 缓存重复出现的字符
-      var that = this; // 缓存 this;
-      this.map(function(item,index){
-          // 怎么理解这段代码呢?
-          // 就是向前往后查找一遍和从后往前查找一遍,不等就是没有重复
-          // 为什么还要判断一遍缓存,是过滤缓存数组内多次写入
-          (that.indexOf(item) !== that.lastIndexOf(item)) && cacheExtraChar.indexOf(item) === -1 ? cacheExtraChar.push(item) : -1;
-      });
-      return cacheExtraChar;
-  }
+var testArr = [1,6,8,3,7,9,2,7,2,4,4,3,3,1,5,3];
 
-
+Array.prototype.extraChar = function(){
+  var cacheExtraChar = []; // 缓存重复出现的字符
+  var that = this; // 缓存 this;
+  this.map(function(item,index){
+    // 怎么理解这段代码呢?
+    // 就是向前往后查找一遍和从后往前查找一遍,不等就是没有重复
+    // 为什么还要判断一遍缓存,是过滤缓存数组内多次写入
+    (that.indexOf(item) !== that.lastIndexOf(item)) && cacheExtraChar.indexOf(item) === -1 ? cacheExtraChar.push(item) : -1;
+  });
+  return cacheExtraChar;
+}
 testArr.extraChar(); // [1, 3, 7, 2, 4]
-
 // 若是还需要排序就再排序下
-
 [1,6,8,3,7,9,2,7,2,4,4,3,3,1,5,3]
-.extraChar()
-.sort(function(a,b){return a-b}) // [1, 2, 3, 4, 7]
+  .extraChar()
+  .sort(function(a,b){return a-b}) // [1, 2, 3, 4, 7]
 ```
 
 ------
@@ -548,7 +531,6 @@ testArr.extraChar(); // [1, 3, 7, 2, 4]
 
 ```JavaScript
 var par = [{age:5,name:'张三'},{age:3,name:'李四'},{age:15,name:'王五'},{age:1,name:'随便'}]
-
 var parSort = par.sort(function(a,b){
     return a.age - b.age;
 })
@@ -571,7 +553,6 @@ var isPalindromes = function(params){
   params = params.toString().toLowerCase()
   return params === params.split('').reverse().join('');
 }
-
 // 同字母异序判定,比如`abcefd`和`dceabf`
 var isAnagram = function(str1, str2)  {
   str1 = str1.toString().toLowerCase();
@@ -593,8 +574,6 @@ var isPalindromes = function(params){
   console.log(params)
   return params === params.split('').reverse().join('');
 }
-
-
 // 进阶版同字母异序: isAnagram('ab *&cef#d','!d@ce^abf')
 var isAnagram = function(str1, str2)  {
   str1 = str1.toString().toLowerCase().replace(/[\W_\s]/g,'');
@@ -609,13 +588,10 @@ var isAnagram = function(str1, str2)  {
 
 ```JavaScript
 // 原生是有 trim()方法的.我们要模拟一个;
-
 String.prototype.emuTrim = function(){
     // 这条正则很好理解,就是把头部尾部多余的空格字符去除
     return this.replace(/(^\s*)|(\s*$)/g,'');
 }
-
-
 '  fsaf fsdaf f safl lllll    '.emuTrim();  //"fsaf fsdaf f safl lllll" 
 ```
 
@@ -664,7 +640,6 @@ for(let i=0;i<10;i++){
 
 ```JavaScript
 // 这个 ES5的
-
 function shallowClone(sourceObj) {
   // 先判断传入的是否为对象类型
   if (!sourceObj || typeof sourceObj !== 'object') {
@@ -672,7 +647,6 @@ function shallowClone(sourceObj) {
   }
   // 判断传入的 Obj是类型,然后给予对应的赋值
   var targetObj = sourceObj.constructor === Array ? [] : {};
-  
   // 遍历所有 key
   for (var keys in sourceObj) {
     // 判断所有属于自身原型链上的 key,而非继承(上游 )那些
@@ -683,9 +657,7 @@ function shallowClone(sourceObj) {
   }
   return targetObj;
 }
-
  // ES6 可以用 Object.assign(targeObj, source1,source2,source3) 来实现对象浅拷贝
- 
 ```
 
 - 深度拷贝
@@ -693,7 +665,6 @@ function shallowClone(sourceObj) {
 ```JavaScript
 // 就是把需要赋值的类型转为基本类型(字符串这些)而非引用类型来实现
 // JOSN对象中的stringify可以把一个js对象序列化为一个JSON字符串，parse可以把JSON字符串反序列化为一个js对象
-
 var deepClone = function(sourceObj) {
   if (!sourceObj || typeof sourceObj !== 'object') {
     console.log('您传入的不是对象!!');
@@ -716,17 +687,14 @@ var deepClone = function(sourceObj) {
 
 强行绑定 `this`的话,可以用 `call`,`apply`,`bind`,箭头函数....来修改`this`的指向
 
-这类的文章太多,自行搜索吧....
-
 Q: 看到你说到 `bind`,能用 JS简单的模拟个么?
 
 ```JavaScript
 Function.prototype.emulateBind =  function (context) {
-    var self = this;
-    return function () {
-        return self.apply(context);
-    }
-
+  var self = this;
+  return function () {
+    return self.apply(context);
+  }
 }
 ```
 
@@ -792,11 +760,11 @@ let app = express();
 
 //设置所有请求的头部
 app.all('*', (req, res, next) =>  {  
-    res.header("Access-Control-Allow-Origin", "xx.xx.com");  
-    res.header("Access-Control-Allow-Headers", "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type");  
-    res.header("Access-Control-Allow-Credentials","true")
-    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
-    next();  
+  res.header("Access-Control-Allow-Origin", "xx.xx.com");  
+  res.header("Access-Control-Allow-Headers", "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type");  
+  res.header("Access-Control-Allow-Credentials","true")
+  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
+  next();  
 });  
 ```
 
@@ -823,16 +791,6 @@ app.all('*', (req, res, next) =>  {
 
 ------
 
-### Q: `javascript`的原型链你怎么理解?
-
-原型链算是 JS 内一种独有的机制,
-
-所有对象都有一个内置`[[proto]]`指向创建它的原型对象(`prototype`)
-
-原型链的基本用来实现继承用的
-
-------
-
 ### Q: `javascript`里面的继承怎么实现，如何避免原型链上面的对象共享
 
 我在写的时候,用了两种,一个是 ES5和 ES6的方案
@@ -840,27 +798,27 @@ app.all('*', (req, res, next) =>  {
 - ES5:寄生组合式继承:通过借用构造函数来继承属性和原型链来实现子继承父。
 
 ```JavaScript
-    function ParentClass(name) {
-      this.name = name;
-    }
-    ParentClass.prototype.sayHello = function () {
-      console.log("I'm parent!" + this.name);
-    }
-    function SubClass(name, age) {
-      //若是要多个参数可以用apply 结合 ...解构
-      ParentClass.call(this, name);
-      this.age = age;
-    }
-    SubClass.prototype = Object.create(ParentClass.prototype);
-    SubClass.prototype.constructor = SubClass;
-    SubClass.prototype.sayChildHello = function (name) {
-      console.log("I'm child " + this.name)
-    }
+function ParentClass(name) {
+  this.name = name;
+}
+ParentClass.prototype.sayHello = function () {
+  console.log("I'm parent!" + this.name);
+}
+function SubClass(name, age) {
+  //若是要多个参数可以用apply 结合 ...解构
+  ParentClass.call(this, name);
+  this.age = age;
+}
+SubClass.prototype = Object.create(ParentClass.prototype);
+SubClass.prototype.constructor = SubClass;
+SubClass.prototype.sayChildHello = function (name) {
+  console.log("I'm child " + this.name)
+}
 
-    let testA = new SubClass('CRPER')
+let testA = new SubClass('CRPER')
 
-    // Object.create()的polyfill
-    /*
+// Object.create()的polyfill
+/*
     function pureObject(o){
         //定义了一个临时构造函数
          function F() {}
@@ -876,29 +834,27 @@ app.all('*', (req, res, next) =>  {
 - ES6: 其实就是ES5的语法糖,不过可读性很强..
 
 ```JavaScript
-    class ParentClass {
-      constructor(name) {
-        this.name = name;
-      }
-      sayHello() {
-        console.log("I'm parent!" + this.name);
-      }
-    }
-
-    class SubClass extends ParentClass {
-      constructor(name) {
-        super(name);
-      }
-      sayChildHello() {
-        console.log("I'm child " + this.name)
-      }
-      // 重新声明父类同名方法会覆写,ES5的话就是直接操作自己的原型链上
-      sayHello(){
-        console.log("override parent method !,I'm sayHello Method")
-      }
-    }
-
-    let testA = new SubClass('CRPER')
+class ParentClass {
+  constructor(name) {
+    this.name = name;
+  }
+  sayHello() {
+    console.log("I'm parent!" + this.name);
+  }
+}
+class SubClass extends ParentClass {
+  constructor(name) {
+    super(name);
+  }
+  sayChildHello() {
+    console.log("I'm child " + this.name)
+  }
+  // 重新声明父类同名方法会覆写,ES5的话就是直接操作自己的原型链上
+  sayHello(){
+    console.log("override parent method !,I'm sayHello Method")
+  }
+}
+let testA = new SubClass('CRPER')
 ```
 
 ------
@@ -952,37 +908,37 @@ app.all('*', (req, res, next) =>  {
 看下面的代码..
 
 ```JavaScript
- class ParentClass {
-      constructor(name) {
-        this.name = name;
-      }
-      static sayHello() {
-        console.log("I'm parent!" + this.name);
-      }
-      static testFunc(){
-        console.log('emm...Parent test static Func')
-      }
-    }
-    class SubClass extends ParentClass {
-      constructor(name) {
-        super(name);
-      }
-      sayChildHello() {
-        console.log("I'm child " + this.name)
-      }
-      static sayHello() {
-        console.log("override parent method !,I'm sayHello Method")
-      }
-      static testFunc2() {
-        console.log(super.testFunc() + 'fsdafasdf');
-      }
-    }
-    ParentClass.sayHello(); // success print
-    let a = new ParentClass('test');
-    a.sayHello() // throw error
-    SubClass.sayHello(); // 同名 static 可以继承且覆盖
-    SubClass.testFunc2(); // 可以继承
-    let testA = new SubClass('CRPER');
+class ParentClass {
+  constructor(name) {
+    this.name = name;
+  }
+  static sayHello() {
+    console.log("I'm parent!" + this.name);
+  }
+  static testFunc(){
+    console.log('emm...Parent test static Func')
+  }
+}
+class SubClass extends ParentClass {
+  constructor(name) {
+    super(name);
+  }
+  sayChildHello() {
+    console.log("I'm child " + this.name)
+  }
+  static sayHello() {
+    console.log("override parent method !,I'm sayHello Method")
+  }
+  static testFunc2() {
+    console.log(super.testFunc() + 'fsdafasdf');
+  }
+}
+ParentClass.sayHello(); // success print
+let a = new ParentClass('test');
+a.sayHello() // throw error
+SubClass.sayHello(); // 同名 static 可以继承且覆盖
+SubClass.testFunc2(); // 可以继承
+let testA = new SubClass('CRPER');
 ```
 
 **私有变量这个我没答出来,只是说了下没有private这个关键字和基本用下划线的人为区分**
@@ -993,7 +949,6 @@ app.all('*', (req, res, next) =>  {
 
 ```JavaScript
 const _ = new WeakMap(); // 实例化,value 必须为对象,有 delete,get,has,set四个方法,看名字都知道了
-
 class TestWeakMap {
   constructor(id, barcode) {
     _.set(this, { id,barcode });
@@ -1086,17 +1041,14 @@ test
 //1. 不接收任何参数，原来的value或者Error在finally里是收不到的 
 //2. 处理后不影响原Promise的状态，该reject还是reject，该resolve还是resolve 
 //3. 不影响Promise向后传递的传，resolve状态还是传递原来的value，reject状态还是传递原来的Error 
-
 Promise.prototype.finally = function (callback) {
-  let P = this.constructor; // 这里拿到的是 Promise 的构造函数
-  
+  let P = this.constructor; // 这里拿到的是 Promise 的构造函数 
   //不管前面的 Promise 是fulfilled还是rejected，都会执行回调函数callback。
   return this.then(
     value  => P.resolve(callback()).then(() => value),
     reason => P.resolve(callback()).then(() => { throw reason })
   );
 };
-
 // 用法很简单,就是可以传入一个回调函数..
 // https://developers.google.com/web/updates/2017/10/promise-finally
 // 这个 url 中说了 node 及 chrome 的哪些版本已经实现了 finally 及用法
@@ -1304,7 +1256,6 @@ if(!("a" in window)){
     var a = 10;
 }
 console.log(a); // undefined
-
 // !("a" i n window)  , 返回 true
 // 留言小伙伴的刨析,非常感谢,还是涉及变量提升的问题
 /*
@@ -1313,23 +1264,18 @@ if(!("a" in window)){
     a = 10;
 }
 */
-
 // 变种题
 (function(){
  var  x = c =  b = {a:1}
 })()
-
 console.log(x.a); // error , x is not defined
 console.log(c,b) // {a: 1} {a: 1}
 ```
 
 ```JavaScript
 var count = 0;
-
 console.log(typeof count === "number"); // true , 这个不用解释了
-
 console.log(!!typeof count === "number"); // false
-
 // 这里涉及到就是优先级和布尔值的问题
 // typeof count 就是字符串"number"
 // !!是转为布尔值(三目运算符的变种),非空字符串布尔值为 true
@@ -1340,19 +1286,15 @@ console.log(!!typeof count === "number"); // false
 (function(){
   var a = b = 3;
 })()
-
 console.log(typeof a === "undefined"); // true
 console.log(typeof b === "undefined"); // false
-
 // 这里涉及的就是立即执行和闭包的问题,还有变量提升,运算符执行方向(=号自左向右)
 // 那个函数可以拆成这样
-
 (function()
   var a; /* 局部变量,外部没法访问*/
   b = 3; /* 全局变量,so . window.b === 3 , 外部可以访问到*/
   a = b;
 })()
-
 // 若是改成这样,这道题应该是对的
 console.log(typeof b === "number" && b ===3
 ); // true
@@ -1362,20 +1304,14 @@ console.log(typeof b === "number" && b ===3
 function foo(something){
   this.a = something;
 }
-
 var obj1 = {
   foo:foo
 };
-
 var obj2 = {};
-
 obj1.foo(2)
-
 console.log(obj1.a) // 2 ,此时的 this 上下文还在 obj1内,若是 obj1.foo 先保存当做引用再执行传参,则上下文为 window
-
 obj1.foo.call(obj2,3); // 用 call 强行改变上下文为 obj2内
 console.log(obj2.a); // 3
-
 var  bar = new obj1.foo(4); // 这里产生了一个实例
 console.log(obj1.a); // 2
 console.log(bar.a); // 4;  new的绑定比隐式和显式绑定优先级更高
@@ -1387,12 +1323,10 @@ function fn(){
  var a = 200;
  alert(a);
 }
-
 fn(); // undefined / 200 ; 涉及变量提升
 alert(a); // undefined
 var a;
 alert(a); // undefined
-
 var a = 300;
 alert(a); // 300
 ```
@@ -1404,25 +1338,19 @@ var obj1= {
     console.log(this.name);
   }
 };
-
 var obj2 = {name:'obj2'};
 var obj3 = {name:'obj3'};
-
 // 这道题主要涉及的是 this 指向的问题..
 obj1.fn(); // obj1
-
 var newFn = obj1.fn;
 newFn(); // undefined, this 指向 window
-
 newFn.call(obj2);// obj2, this 指向 obj2
-
 obj3.fn = newFn;
 /*
 ƒ (){
     console.log(this.name);
   }
 */
-
 obj3.fn(); // 这里指向的是 obj3 .所以输出 obj3
 ```
 
@@ -1437,7 +1365,6 @@ function Parent(){
    console.log(this.a + '' + this.c.demo + ':' + this.b)
   }
 }
-
 function Child(){
   this.a  = 2;
   this.change = function(){
@@ -1445,38 +1372,28 @@ function Child(){
     this.a = this.b.length;
     this.c.demo = this.a++;
   }
-
 }
-
 Child.prototype = new Parent();
 var parent = new Parent();
 var child1 = new Child();
 var child2 = new Child();
-
 child1.a = 11;
 child2.a = 12;
-
 // 这前面几个还算简单,继续看下去
 parent.show(); // 15:1,2,1
-
 // 因为 Child 自身没有 show 的方法,所以往原型链的上游找;
 // 找到父类的,this 因为没更改,所以输出结果如下
 child1.show(); // 115:1,2,1
 child2.show(); // 125:1,2,1
-
 child1.change();  // 改变一些数据,没有输出
 child2.change();  // +1
-
 parent.show(); // 15:1,2,1
-
 child1.show(); // 55:1,2,1,11,12
 child2.show(); // 65:1,2,1,11,12
 ```
 
 ```JavaScript
 // 这道题也很绕,函数递归调用的
-
-
 function test(a,b){
   console.log(b);
   return {
@@ -1484,7 +1401,6 @@ function test(a,b){
        return test(c,a);
     }
 };
-
 // 这道题的理解,拆成这样就好理解了
 /*function test(a,b){
   console.log("a:"+a,"b:"+b);
@@ -1494,17 +1410,12 @@ function test(a,b){
        return test(c,a);
     }
   }
-
 }*/
 var a = test(100); // undefined, 这个是不言而喻的;
 a.test(200); //  100;
 a.test(300); // 100;
-
 var b =  test(101).test(201).test(301); // undefined/101/201
-
-
 var c =  test(102).test(202); // undefined / 102
-
 c.test(302); // 202
 ```
 
@@ -1531,7 +1442,6 @@ test.replace(/\d/g,'[$&]');  // "abc[3][4][5]efgabcab"
 var temp = test.split('').map(function(item){
   return /^\d$/.test(item) ? item * 2 : item;
 }).join('');
-
 // "abc6810efgabcab"
 ```
 
@@ -1545,7 +1455,6 @@ var temp = test.split('').map(function(item){
 // 这是最简单的代码量了..
 var str = "I have a dream";
 str.replace(/dream/g,"package");
-
 // 不用正则也可以直接字符串替换
 str.replace("dream","package")
 ```
@@ -1555,7 +1464,6 @@ str.replace("dream","package")
 ```JavaScript
 // 很直白的大脑回路
 var str = "I have a dream";
-
 str.split(" ").map(function(item){
  return  item === "dream" ? item = "package":item;
 }).join(" ");
@@ -1567,7 +1475,6 @@ str.split(" ").map(function(item){
 var str = "I have a dream";
 var tempArr = str.split(" "); // ["I", "have", "a", "dream"]
 var removeIndex = tempArr.indexOf('dream'); // 3
-
 tempArr.splice(removeIndex,1,"package");
 var transStr = tempArr.join(" "); // "I have a package";
 ```
@@ -1606,7 +1513,6 @@ str.indexOf('dream') !== -1 ? str.slice(0,str.indexOf('dream')).concat('package'
 // 找个中位值,从原数组切割出来,
 // 剩下的作为两个数组,每次都去比较;
 // 直到递归的结果出来, 平均复杂度O(nlog n)
-
 function quickSort(arr) {
   //如果数组长度<=1,则直接返回
   if (arr.length <= 1) {
@@ -1619,7 +1525,6 @@ function quickSort(arr) {
   //定义两个空数组来存放比对后的值
   var left = [];
   var right = [];
-
   //比基准小的放在left，比基准大的放在right
   for (var i = 0 , j = arr.length; i < j; i++) {
     if (arr[i] <= pivot) {
@@ -1654,7 +1559,6 @@ function binSearch(target, arr, start, end) {
     return binSearch(target, arr, mid + 1, end);
   }
 }
-
 // binSearch(5,[1,2,3,4,5,6,7,8]) => 4
 
 // 无序的数组则需要先排序好数组,否则会堆栈溢出(死循环)
@@ -1695,7 +1599,7 @@ function binSearch(target, arr, start, end) {
 
 至于第一次丢球的位置如何确定, 就是开平之后的值作为一个区间.
 
-若 N 个球和 M 米的大厦...第一次丢球的高度区间就是这个了![\frac{m}{\sqrt[n]{m}}](https://juejin.im/equation?tex=%5Cfrac%7Bm%7D%7B%5Csqrt%5Bn%5D%7Bm%7D%7D)
+ N 个球和 M 米的大厦...第一次丢球的高度区间就是这个了![\frac{m}{\sqrt[n]{m}}](https://juejin.im/equation?tex=%5Cfrac%7Bm%7D%7B%5Csqrt%5Bn%5D%7Bm%7D%7D)
 
 面试大佬说这个还可以...那就暂且告一段落
 
@@ -1781,10 +1685,8 @@ MySQL索引类型:
 // 这个东东我的小伙伴也写出来了.我的是在它的解答方式上加以注释和对参数的判断做了考虑
 // 他的解法方案在他的 github 上 https://github.com/lyh2668/blog/issues/1 , by lyh2668
 // 方便一些小伙伴的理解,以下代码包含ES6的姿势(参数默认值,剪头函数)
-
 let inputDateRange = (date, step = 30, separator = '-') => {
   let startTime, endTime; // 开始时间和结束时间
-
   if (Object.prototype.toString.call(date) === '[object String]') {
     date = date.trim(); // 去除两边的空格
     var tempDate = '';
@@ -1809,7 +1711,6 @@ let inputDateRange = (date, step = 30, separator = '-') => {
   } else {
     console.log('您传入的也许不是一个时间段!!!');
   }
-
   // 传入的 step 是否为数字,否则截图数字部分转化
   // 为什么和 NaN 比较(自身不等性),若是传入的连正则都没法识别,那只能给默认值了
   Object.prototype.toString.call(step) === '[object Number]'
@@ -1817,12 +1718,10 @@ let inputDateRange = (date, step = 30, separator = '-') => {
     : parseInt(step.replace(/[W\s\b]/g, ''), 10) === NaN
       ? (step = parseInt(step.replace(/[W\s\b]/g, ''), 10))
       : (step = 30);
-
   // 若是开始时间大于结束时间则结束时间往后追加一天
   startTime > endTime ? (endTime += 24 * 60) : '';
 
   let transformDate = []; // 储存转换后的数组,时间分段
-
   // 开始遍历判断,用 while
   while (startTime < endTime) {
     // 如果开始时间+步长大于结束时间,则这个分段结束,否则结束时间是步长递增
@@ -1832,35 +1731,28 @@ let inputDateRange = (date, step = 30, separator = '-') => {
   }
   return transformDate;
 };
-
 // 时间转化为分钟
 let time2min = time => {
   // 获取切割的
   time.indexOf(':') ? (time = time.trim().split(':')) : '';
   return time[0] * 60 + parseInt(time[1]); // 返回转化的分钟
 };
-
 // 分钟转会字符串时间
 let min2time = minutes => {
   let hour = parseInt(minutes / 60); // 返回多少小时
   let minute = minutes - hour * 60; // 扣除小时后剩余的分钟数
-
   hour >= 24 ? (hour = hour - 24) : ''; // 若是大于等于24小时需要扣除一天得到所剩下的小时
   minute < 10 ? (minute = '0' + minute) : ''; // 小于10的都要补零
   hour < 10 ? (hour = '0' + hour) : ''; // 小于10的都要补零
   return `${hour}:${minute}`;
 };
-
-
 // test ,支持字符串传入时间段
 inputDateRange('3:00-5:00','20d'); // ["03:00-03:20", "03:20-03:40", "03:40-04:00", "04:00-04:20", "04:20-04:40", "04:40-05:00"]
-
 // 亦或者数组传入
 inputDateRange(['3:00','5:00'],'45df.3d'); // ["03:00-03:45", "03:45-04:30", "04:30-05:00"]
 
 // step 支持数字亦或者带特殊字符的数字
 inputDateRange(['6:00','8:00'],'55df.3d'); // ["06:00-06:55", "06:55-07:50", "07:50-08:00"]
-
 inputDateRange('3:00-5:00',60); // ["03:00-04:00", "04:00-05:00"]
 ```
 
@@ -1903,10 +1795,7 @@ function threeWaterFlower(rangeStart, rangeEnd) {
   }
   return temp;
 }
-
-
 threeWaterFlower(100,999); // [153, 370, 371, 407]
-
 threeWaterFlower(); // [153, 370, 371, 407]
 ```
 
@@ -1926,11 +1815,8 @@ let manyWaterFlower = (rangeStart = 100, rangeEnd = 999, flower = 3) => {
   }
   return temp;
 }
-
 manyWaterFlower(); // [153, 370, 371, 407]
-
 manyWaterFlower(100,10000,4); // [1634, 8208, 9474]
-
 manyWaterFlower(100,10000,5); // [4150, 4151]
 ```
 
@@ -1941,13 +1827,11 @@ manyWaterFlower(100,10000,5); // [4150, 4151]
 ```JavaScript
 let manyWaterFlower = (flower = 3,rangeStart, rangeEnd ) => {
   let temp = [];// 缓存所有找到的花值
-
   // 这一段就是填充开始循环的范围,处理完毕后转为数字,推荐的开始值
   let flowerRecommandStart = Number(
     ''.padStart(flower, '0').replace(/^(\d{1})/g, '1')
   );
   let flowerRecommandEnd = Number(''.padStart(flower, '9'));
-
   // 判断是否传入开始值
   if (rangeStart) {
     rangeStart > flowerRecommandStart
@@ -1956,19 +1840,16 @@ let manyWaterFlower = (flower = 3,rangeStart, rangeEnd ) => {
   } else {
     rangeStart = flowerRecommandStart;
   }
-
   // 判断是否有传入结束值
   if (rangeEnd) {
     rangeEnd > flowerRecommandEnd ? (rangeEnd = flowerRecommandEnd) : rangeEnd;
   } else {
     rangeEnd = flowerRecommandEnd;
   }
-
   // 若是初始值大于结束值
   if (rangeStart > rangeEnd) {
     rangeEnd = flowerRecommandEnd;
   }
-
   for (let i = rangeStart; i <= rangeEnd; i++) {
     let t = i
       .toString()
@@ -1978,34 +1859,27 @@ let manyWaterFlower = (flower = 3,rangeStart, rangeEnd ) => {
     let transformT = parseInt(t, 10);
     transformT == i ? temp.push(i) : '';
   }
-
   return temp;
 };
-
 console.time('manyWaterFlower');
 manyWaterFlower(4)
 console.timeEnd('manyWaterFlower');
 // VM34013:4 manyWaterFlower: 8.112060546875ms ,这个是跑出来的时间
-
 用上个例子的代码,从100到9999的,我们跑一下看看
 console.time('manyWaterFlower');
 manyWaterFlower(100,9999,4)
 console.timeEnd('manyWaterFlower');
 // VM3135:4 manyWaterFlower: 10.51904296875ms
-
-
 // 我的 MBP 跑10花直接卡死...跑7花有点久...
 console.time('7 flower')
 manyWaterFlower(7);
 console.timeEnd('7 flower')
 // 7 flower: 6489.608154296875ms
-
 // 8 花 CPU 的风扇狂叫....
 console.time('8 flower')
 manyWaterFlower(8);
 console.timeEnd('8 flower')
 // VM644:3 8 flower: 68010.26489257812ms
-
 // 对了我们还没有考虑数值溢出的问题..因为正整数在 JS 的范围是有限的.
 // 有兴趣的小伙伴可以自行完善
 ```
@@ -2018,7 +1892,6 @@ console.timeEnd('8 flower')
 
 ```JavaScript
 // 请使用递归算法在 TODO 注释后实现通过节点 key 数组寻找 json 对象中的对应值
-
 var data = {
   a1: {
     b1: 1,
@@ -2032,10 +1905,8 @@ var data = {
     b2: 4
   }
 };
-
 function findNode(inPath, inData) {
   // TODO
-
   // 判断传入的是否是一个数组
   if (Array.isArray(inPath)) {
     // 当长度为1的时候寻找该 key 是否有值,有则返回,无则返回-1
@@ -2048,7 +1919,6 @@ function findNode(inPath, inData) {
     console.log('您传入的不是一个数组')
   }
 }
-
 console.log(findNode(['a1', 'b2'], data)); // 2
 console.log(findNode(['a1', 'b3','b4'], data)); // 5
 ```
@@ -2081,7 +1951,6 @@ function isType(params) {
     return params;
   }
 }
-
 function findNode(inPath, inData) {
   inPath = isType(inPath);
   // 判断传入的是否是一个数组
@@ -2096,11 +1965,8 @@ function findNode(inPath, inData) {
     console.log('您传入的不是一个数组');
   }
 }
-
 console.log(findNode(['a1', 'b2'], data)); // 2
-
-console.log(findNode('a1.b3.b4', data)); // 5
-    
+console.log(findNode('a1.b3.b4', data)); // 5   
 ```
 
 ------
@@ -2174,8 +2040,6 @@ webpack 是一个资源处理工具,它的出现节省了我们的人力和时�
 > - Q: 小程序以及`React Native`的差异..等等
 
 面试的过程中磕磕碰碰才能发现自身的很多不足和需要去努力的方向.
-
-
 
 ### HTTP协议
 
@@ -2252,15 +2116,12 @@ webpack 是一个资源处理工具,它的出现节省了我们的人力和时�
     var o4=Object.create(p);
     ```
 
-    ​
 
 
 - 原型/构造函数/实例/原型链
 - instanceof的原理
 - new运算符
 
-
-### Q:类
 
 
 
