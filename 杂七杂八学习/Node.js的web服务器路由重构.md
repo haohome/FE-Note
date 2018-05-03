@@ -6,9 +6,9 @@ tags: [node,JavaScript]
 
 ------
 
-Node使JavaScript操作服务器成为可能，同时其带来了强大的文件操作方法。我们在创建一个服务器时，会遇到路由切换的问题，当前express等库是可以识别不同路由并执行不同操作的，最近在回顾Node.js的一些用法，这里就尝试采用原生的方法重构一个路由功能。
+<img src='https://haohome.top/18-5-3/35609573.jpg' width="40%">
 
-<!-- more -->
+Node使JavaScript操作服务器成为可能，同时其带来了强大的文件操作方法。我们在创建一个服务器时，会遇到路由切换的问题，当前express等库是可以识别不同路由并执行不同操作的，最近在回顾Node.js的一些用法，这里就尝试采用原生的方法重构一个路由功能。
 
 原始路由方法：
 
@@ -34,7 +34,9 @@ server.listen(3000);
 console.log('开始监听3000端口')
 ```
 
-这样的路由方法看似结构清晰，如果有大量的路由和相应的页面响应方法，就会显得臃肿了。
+<!-- more -->
+
+这样的路由方法看似结构清晰，但实际情况比这复杂的多，有大量的路由和相应的页面响应方法，就会显得臃肿了。
 
 其实，我们可以采用ES6的模块语法，使创建服务器、路由控制、地址处理方法执行分别处于不同模块，最终在一个入口文件中引入：
 
@@ -124,4 +126,49 @@ server.startServer(router.route,handle)
 ```
 
 这样如果增加路由页面，只需在相应的位置依次增加即可，结构清晰！
+
+当使用GET或POST请求时，需要对服务器模块做一些更改:
+
+1. 请求为GET时,解析路由地址'?'后面的query语句;
+2. 请求为POST时,监听数据流并解析;
+
+```JavaScript
+const http=require('http');
+const url=require('url');
+const queryString=require('querystring');
+function startServer(route,handle){
+  var onRequest=function(req,resp){
+    //url路径
+    var pathName=url.parse(req.url).pathname;
+    
+    //请求为POST时,监听数据流
+    if(req.method=="POST"){
+      var data="";
+      req.on('error',function(err){
+        console.log(err);
+      }).on('data',function(chunk){
+        data+=chunk;
+      }).on('end',function(){
+      var params=queryString.parse(data);
+      route(handle,pathName,resp,params);
+      })
+    }
+    //请求为GET时,解析路由query
+    else{
+      var params=url.parse(req.url,true).query;
+      route(handle,pathName,resp,params);
+    }
+  }
+  var server= http.createServer(onRequest)
+  server.listen(3000,'127.0.0.1');
+  console.log('运行在3000端口');
+}
+module.exports.startServer = startServer;
+
+
+```
+
+相应的，增加router和handler的传参。
+
+详细代码：[Demo-web](https://github.com/yifoo/Node/tree/master/Demo-web)
 
