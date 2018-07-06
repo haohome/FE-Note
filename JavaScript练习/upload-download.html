@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script> 
+  <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script> 
+  <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+</head>
+<body>
+  <form action="">
+    <input type="file" name="thumbnail" id="file">
+    <input type="button" value='上传' id='upload'>
+
+  </form>
+  <button id='down'>下载</button>
+  <script>
+
+    var formData = new FormData(); 
+    $('#upload').on('click',function(){
+      console.log($('#file')[0].files[0])
+    formData.append('thumbnail',$('#file')[0].files[0])
+    console.log(formData)
+      $.ajax({
+      xhr: function(){ //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数  
+          xhr = $.ajaxSettings.xhr();  
+      if(xhr.upload){ //检查upload属性是否存在  
+        NProgress.start();
+        xhr.upload.addEventListener('progress',function(evt){
+          if (evt.lengthComputable) {  
+            var percentComplete = evt.loaded / evt.total;
+            NProgress.set(percentComplete)
+            percentComplete = (percentComplete * 100).toFixed(1)+'%'
+            console.log('已上传',percentComplete)
+          }
+        }, false);   
+      }  
+        return xhr; //xhr对象返回给jQuery使用  
+      },  
+      success: function(result){  
+      }, 
+      type: 'POST',
+      url: "http://127.0.0.1:3000/upload",
+      data: formData,
+      contentType: false, //必须false才会自动加上正确的Content-Type  
+      processData: false,
+      success: function(data){
+        NProgress.done()
+      }
+    });
+  
+    })
+    var url='https://www.haohome.top/down.php?file=IntelliJIDEALicenseServer(v1.6)'
+    $('#down').on('click',function () {
+      $.ajax({
+        xhr: function(){
+          console.log('进入ajax')
+          var xhr = new window.XMLHttpRequest();
+          //Upload progress
+          xhr.upload.addEventListener("progress", function(evt){
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+              //Do something with upload progress
+              console.log(percentComplete);
+            }
+          }, false);
+          //Download progress
+            NProgress.start();
+          xhr.addEventListener("progress", function(evt){
+           var loaded = (evt.loaded/5896023 *100).toFixed(1)+'%'
+           console.log('已下载',loaded)
+           NProgress.set(evt.loaded/5896023)
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+              //Do something with download progress
+              console.log(percentComplete);
+            }
+          }, false);
+          return xhr;
+        },
+        type: 'GET',
+        url: url,
+        data: {},
+        success: function(data, status, xhr){
+          NProgress.done();
+          console.log("Download file DONE!");
+          // console.log(data); // ajax方式请求的数据只能存放在javascipt内存空间，可以通过javascript访问，但是无法保存到硬盘
+          console.log(status);
+          console.log(xhr);
+          console.log("=====================");
+        }
+      });
+    })
+  
+  </script>
+</body>
+</html>

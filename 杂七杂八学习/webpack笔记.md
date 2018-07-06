@@ -6,11 +6,49 @@ tags: webpack
 
 ------
 
-##  webpack入门
+### 背景
+
+ES6 的模块系统: import 和export
+
+```JavaScript
+export default custom = {
+    // 对象
+}
+/*****************/
+import custom from '.....'
+```
+
+Common.js
+
+```JavaScript
+let { stat, exists, readFile } = require('fs');
+
+// 等同于
+let fs = require('fs');
+let stat = fs.stat;
+let exists = fs.exists;
+let readfile = fs.readfile;
+```
+
+没有模块加载和打包工具前,需要要么手工合并文件，要么使用一堆`<script>`标签,带来一些问题
+
+- 必须保证文件加载的顺序没错，包括知道哪些文件依赖另外一些文件，以及不包含不需要的文件。
+- 多个`<script>`标签意味着对服务器发送多次请求，性能会受影响。
+
+模块文件使用很方便,通过npm安装相应插件模块,直接import引入即可
 
 ###  1.概念
 
 webpack 是一个现代 JavaScript 应用程序的**静态模块打包器**(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
+
+![](../img/webpack.jpg)
+
+认识webpack,需了解四个核心概念:
+
+- 入口(entry)
+- 输出(output)
+- loader
+- 插件(plugins)
 
 ####  1.1 [入口(entry )](https://doc.webpack-china.org/concepts/entry-points)
 
@@ -22,16 +60,28 @@ webpack 是一个现代 JavaScript 应用程序的**静态模块打包器**(modu
 
 ```JavaScript
 module.exports = {
-  entry: './file.js'
+  entry: './index.js'
+};
+```
+
+当工程是多页面应用程序:
+
+```JavaScript
+const config = {
+  entry: {
+    pageOne: './src/pageOne/index.js',
+    pageTwo: './src/pageTwo/index.js',
+    pageThree: './src/pageThree/index.js'
+  }
 };
 ```
 
 ####  1.2 [出口(output)](https://doc.webpack-china.org/concepts/output)
 
-```output```属性的最低要求是，将它的值设置为一个对象，包括以下两点：
+`output`属性指在哪里输出它所创建的 *bundles*，包括以下两点：
 
 - `filename` 用于输出文件的文件名。
-- 目标输出目录 `path` 的绝对路径。
+-  `path`指输出 的绝对路径。
 
 ```output```  属性告诉 webpack 在**哪里(path)输出它所创建的 bundles**，以及如何命名这些文件。
 
@@ -41,7 +91,8 @@ module.exports = {
   entry: './file.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js'  //输出的文件名将为file.bundle.js,在当前文件夹dist目录下
+    filename: '[name].bundle.js',            //输出的文件名将为file.bundle.js,在当前文件夹dist目录下
+    publicPath: '/dist/'
   }
 };
 ```
@@ -62,10 +113,12 @@ module.exports = {
 
 > 本质: webpack loader 将所有类型的文件，转换为应用程序的依赖图可以直接引用的模块。
 
- webpack 的配置中 **loader** 有两个目标:
+ webpack 的配置中 **loader** 有两个属性:
 
-- 1.识别出应该被对应的 loader 进行转换的那些文件。(使用 `test` 属性)
-- 2.转换这些文件，从而使其能够被添加到依赖图中（并且最终添加到 bundle 中）(`use` 属性)
+-  `test` :识别出应该被对应的 loader 进行转换的那些文件;
+- `use`:转换这些文件，从而使其能够被添加到依赖图中（并且最终添加到 bundle 中）
+
+当编译时碰到 `require()`/`import` 语句中被解析为路径时,打包前将执行loader进行转换
 
 ```JavaScript
 const path = require('path');
@@ -77,8 +130,8 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.txt$/, use: 'raw-loader' }
-    ]  //当webpack打包require()/import 语句中被解析为'.txt'的路径时,先使用raw-loader转换一下
+      { test: /\.css$/, use: 'css-loader' }
+    ]
   }
 };
 ```
@@ -104,12 +157,12 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.txt$/, use: 'raw-loader' }
+      { test: /\.css$/, use: 'css-loader' }
     ]
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin(),
-    new HtmlWebpackPlugin({template: './src/index.html'})//使用html模板
+    new HtmlWebpackPlugin({template: './src/index.html'}) //使用html模板
   ]
 };
 ```
@@ -126,42 +179,7 @@ webpack 配置是标准的 ```Node.js CommonJS``` 模块:
 - 对常用值使用常量或变量
 - 编写并执行函数来生成部分配置
 
-**配置类型(可略过)**
-
-在[开发](https://doc.webpack-china.org/guides/development)和[生产构建](https://doc.webpack-china.org/guides/production)之间，消除 `webpack.config.js` 的差异,（至少）有两种选项:
-
-1. 导出一个函数,包含两个参数:
-
-```JavaScript
-module.exports = function(env, argv) {//env:environment,argv:一个选项 map 对象
-  return {
-    devtool: env.production ? 'source-maps' : 'eval',
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-       compress: argv['optimize-minimize'] // 只有传入 -p 或 --optimize-minimize
-      })
-    ]
-  };
-};
-```
-
-2. 导出一个 Promise
-
-webpack 将运行由配置文件导出的函数，并且等待 Promise 返回。便于需要异步地加载所需的配置变量。
-
-```JavaScript
-module.exports = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        entry: './app.js',
-      })
-    }, 5000)
-  })
-}
-```
-
-3. 导出多个配置对象
+导出多个配置对象
 
 ```JavaScript
 module.exports = [{
@@ -401,10 +419,6 @@ module.exports = {
     }
 },
 ```
-
-
-
-
 
 ###  4.环境构建
 
