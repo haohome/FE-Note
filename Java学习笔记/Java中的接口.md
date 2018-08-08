@@ -1,9 +1,10 @@
+-----
 title: Java中的接口
 date: 2018-1-7
 categories: Java
 tags: [Java,学习记录]
-keywords: Interface,implements
----
+
+-----
 ### 1.接口的概念
 接口定义了某一批类所需要遵守的规范,接口不关心这些类的内部数据,也不关心这些类里方法的实现细节,它只规定这些类里必须提供某些方法;
 ### 2.接口定义
