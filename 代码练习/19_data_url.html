@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DataUrl</title>
+</head>
+
+<body>
+  <img alt="" id='idomImg'>
+  <canvas id="ctx" width='100' height='100'></canvas>
+  <script>
+    var domImg = document.getElementById('idomImg')
+    var img = new Image();
+    img.src = "http://statics.itc.cn/web/static/images/pic/sohu-logo/favicon.ico"
+    img.crossOrigin = "Anonymous";
+    img.onload = function () {
+      var canvas = document.getElementById('ctx');
+      canvas.getContext('2d').drawImage(img, 0, 0);
+      var imgSrc = canvas.toDataURL("image/png");
+      console.log(imgSrc)
+      domImg.src = imgSrc
+    };
+
+  </script>
+</body>
+
+</html>

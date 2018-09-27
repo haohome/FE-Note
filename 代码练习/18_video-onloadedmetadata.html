@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    img[src=""],img:not([src]){
+      opacity:0;
+    }
+  </style>
+</head>
+<body>
+  <h1>视频获取第一帧</h1>
+  <hr>
+  <div>
+    <p>本地上传</p>
+      <label for="file">选择视频</label> 
+      <input type="file" name="" id="file""><br>
+  </div>
+  <hr>
+  <div>
+      <p>外链</p>
+      <input type="text" id='link'><button id="btn">提交</button>
+  </div>
+  <hr>
+  <video id='video'  preload="meta" style='display:none' crossorigin="anonymous"></video>
+  <div>
+    <h2>首帧图片显示</h2>
+    <img src="" alt="" id="img">
+  </div>
+  <p>视频外链: https://haohome.top/movie.mp4</p>
+  <script>
+    var video = document.getElementById("video")
+    var file = document.getElementById("file")
+    var btn = document.getElementById("btn")
+    var link = document.getElementById("link")
+    file.addEventListener("change",function(){
+      var file  = this.files[0];
+      var src = URL.createObjectURL(file)
+      var newFile = new FileReader(file)
+      video.src = src
+    })
+    btn.onclick=function(){
+      video.src =link.value
+    }
+     video.addEventListener("loadeddata", function () {
+      var canvas = document.createElement("canvas");
+      canvas.width = this.videoWidth;
+      canvas.height = this.videoHeight;
+      setTimeout(() => {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        var imgSrc = '';
+        try {
+          imgSrc = canvas.toDataURL("image/png");
+          img.src = imgSrc
+        } catch (e) {
+          console.log("只能截取当前域名视频图片!", e);
+        }
+      }, 200)
+    }, false);
+  </script>
+</body>
+</html>
