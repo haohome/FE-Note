@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>移动端图片上传</title>
+  <style>
+    #container {
+      width: 800px;
+      margin: 0 auto;
+    }
+
+    form {
+      border: 1px solid #000;
+      width: 200px;
+      padding: 20px;
+    }
+
+    input {
+      margin: 5px;
+      padding: 5px;
+      background: lightyellow;
+      border: .1px solid #000;
+    }
+
+    input[type="button"],
+    button {
+      margin: 5px;
+      padding: 5px;
+      height: 30px;
+      width: auto;
+      border: none;
+      background: #333;
+      border-radius: 3px;
+      color: #fff;
+      box-shadow: 0 0 1px #000;
+      cursor: pointer;
+    }
+
+    input[type="button"]:disabled,
+    button:disabled {
+      background: #eee;
+      color: #808080;
+      cursor: default;
+    }
+
+    ul {
+      background: #eee;
+      border: none;
+      border-radius: 3px;
+      box-shadow: 0 0 1px #000
+    }
+
+    div span {
+      color: red;
+    }
+    img{
+      width:100px;
+      height:100px;
+      margin:2px;
+    }
+    img[src=""],
+    img:not([src]) {
+      display: none
+    }
+  </style>
+</head>
+
+<body>
+  <label for="file1">单个图片上传</label>
+  <input type="file" accept="image/*"  id='file1' /> <br>
+  <div id="preview1"></div>
+  <hr>
+  <label for="file2">多个图片上传</label>
+  <input type="file" accept="image/*" multiple='multiple' id='file2' /> <br>
+  <div id="preview2"></div>
+  <hr>
+  <label for="file3">压缩图片上传</label>
+  <input type="file" accept="image/*" id='file3' /> <br>
+  <div id="preview3"></div>
+  <script>
+    var $ = selector => document.querySelector(selector)
+    // 图片实现本地预览
+    // 单个图片
+    var file1 = $('#file1')
+    var preview1 = $('#preview1')
+    file1.onchange = function () {
+      var imgfile = this.files[0]
+      var domImg = new Image();
+      domImg.src = URL.createObjectURL(imgfile)
+      preview1.appendChild(domImg)
+    }
+    // 多个图片
+    var file2 = $("#file2")
+    var preview2 = $('#preview2')
+    file2.onchange = function () {
+      var fileList = Array.prototype.slice.call(this.files)
+      fileList.forEach((item, index) => {
+        var domImg = new Image();
+        domImg.src = URL.createObjectURL(item)
+        preview2.appendChild(domImg)
+      })
+    }
+
+    /**
+     * 压缩图片
+     * @param {file} 输入图片
+     * @param {quality} 图片质量
+     * @returns {Promise} resolved promise 返回压缩后的新图片
+     */
+    function compressImg(file, quality) {
+      return new Promise((resolve, reject) => {
+        var img = new Image();
+        img.src = URL.createObjectURL(file)
+        img.onerror = error => reject(error)
+        img.onload = () => {
+          var canvas = document.createElement('canvas')
+          var ctx = canvas.getContext('2d')
+          var canvasWidth = document.documentElement.clientWidth * window.devicePixelRatio
+          var canvasHeight = document.documentElement.clientHeight * window.devicePixelRatio
+          // 水平方向想缩放比
+          var scaleX = canvasWidth / img.width
+          var scaleY = canvasHeight / img.height
+          // 取缩放比更小的比例
+          var scale = Math.min(scaleX, scaleY)
+          // 画布上绘制的图片尺寸
+          const imageWidth = img.width * scale
+          const imageHeight = img.height * scale
+          canvas.width = imageWidth
+          canvas.height = imageHeight
+          ctx.drawImage(img, 0, 0, imageWidth, imageHeight)
+          canvas.toBlob(file => resolve(file), "image/jpeg", quality);
+        }
+      })
+    }
+    var file3 = $('#file3')
+    var preview3 = $('#preview3')
+    file3.onchange = function () {
+      var imgfile = this.files[0]
+      compressImg(imgfile, .5).then(blobFile => {
+        var domImg = new Image();
+        domImg.src = URL.createObjectURL(blobFile)
+        preview3.appendChild(domImg)
+      })
+    }
+
+    /**
+     * 上传图片
+     * @param {File} file 待上传的文件
+     * @return {Promise} 
+     */
+    function uploadFile(file,url) {
+      return new Promise((resolve, reject) => {
+        // 准备表单数据
+        const formData = new FormData()
+        formData.append('file', file)
+
+        // 提交请求
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', url)
+        xhr.onreadystatechange = function () {
+          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            resolve(JSON.parse(this.responseText))
+          } else {
+            reject(this.responseText)
+          }
+        }
+        xhr.send(formData)
+      })
+    }
+  </script>
+</body>
+
+</html>
