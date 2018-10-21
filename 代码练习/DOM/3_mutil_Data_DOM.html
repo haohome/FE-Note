@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>大量数据渲染DOM</title>
+  <style>
+			span{
+				display: inline-block;
+				margin-right: 2px;
+				margin-bottom: 2px;
+				min-width: 10px;
+				background-color: #D5D5D6;
+			}
+  </style>
+</head>
+<body>
+<div id="app">
+</div>	
+<script>
+var app=document.getElementById("app");
+/**
+ *渲染大量数据
+ */
+function showNumber(num){
+  var fragment=document.createDocumentFragment();
+  for(var i=0;i<num;i++){
+    var span=document.createElement("span");
+		span.innerHTML = i;
+		fragment.appendChild(span);
+  }
+  app.appendChild(fragment)
+}
+var arr=[]
+for(var i = 0;i<4000000;i++){
+  arr.push(i)
+}
+function init(arr){
+  if(arr.length>500){
+    setTimeout(()=>{
+      showNumber(500)
+      arr.slice(0,500)
+      init(arr);
+    })
+  }else{
+    showNumber(arr.length)
+  }
+}
+init(arr)
+</script>
+</body>
+</html>

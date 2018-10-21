@@ -1,4 +1,17 @@
-# this
+
+
+
+
+
+
+-----
+
+title: 你不知道的JavaScript之this
+categories: JavaScript
+tags: [YDKJS,JS]
+date: 2018-10-21
+
+-----
 
 ##  初识this
 
@@ -26,6 +39,8 @@ speak.call( you ); // Hello, I'm READER
 ```
 
 这个代码片段允许 `identify()` 和 `speak()` 函数对多个 *环境* 对象（`me` 和 `you`）进行复用，而不是针对每个对象定义函数的分离版本。
+
+<!-- more -->
 
 如果不用this,也可以明确的将环境对象传递给 `identify()` 和 `speak()`
 
