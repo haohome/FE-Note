@@ -1,3 +1,12 @@
+-----
+
+title: iTerm终端设置代理
+categories: Mac&PC
+date: 2018-10-05
+tags: [电脑技巧]
+
+-----
+
 iTerm2和Macbook自带的Terminal差不多，但是功能更强大，强烈推荐使用。
 
  下面说下，如何让iTerm2记住远程服务器SSH登录账号和密码。
@@ -24,3 +33,5 @@ expect eof
 
  第五步，下次打开iTerm2，是不是默认就登录上服务器了？极大提升效率。
  按照以上方法，可以配置profile,对应很多个服务器。这样每次启动可以选择默认操作，然后再profile下拉选中中执行对应的VPS profile，则可以实现自动登录！
+
+> Tips:  如果重新添加相同ip的实例,需要在~/.ssh/known_hosts 里删除该ip的ssh-rsa码
