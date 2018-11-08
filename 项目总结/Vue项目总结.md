@@ -303,3 +303,5 @@ Vue.component('base-checkbox', {
      ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
    }
    ```
+
+   Demo: [图片上传与压缩](./图片上传与压缩.md)
