@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>路由实现</title>
+  <style>
+    .content {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      display: none;
+    }
+    .content:nth-child(1) {
+      display: block;
+    }
+  </style>
+  <script src="../jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div id="index-page" class="content">
+    <ul>
+      <li><a href="#/index">index</a></li>
+      <li><a href="#/news">news</a></li>
+      <li><a href="#/about">about</a></li>
+    </ul>
+  </div>
+
+  <div id="news-page" class="content">
+    <h1>this is new page</h1>
+    <a href="#/index">back</a>
+  </div>
+
+  <div id="about-page" class="content">
+    <h1>this is about page</h1>
+    <a href="#/index">back</a>
+  </div>
+
+  <script src="./index.js"></script>
+  <script>
+    
+  </script>
+</body>
+
+</html>
