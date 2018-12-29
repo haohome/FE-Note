@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>中介者模式</title>
+    </head>
+    <body>
+        选择颜色：
+        <select id="colorSelect">
+            <option value="">请选择</option>
+            <option value="red">红色</option>
+            <option value="blue">蓝色</option>
+        </select>
+        选择内存：
+        <select id="memorySelect">
+            <option value="">请选择</option>
+            <option value="32G">32G</option>
+            <option value="16G">16G</option>
+        </select>
+        输入购买数量：<input type="text" id="numberInput">
+        <br>
+
+        您选择了颜色：<div id="colorInfo"></div> <br>
+        您选择了内存：<div id="memoryInfo"></div> <br>
+        您输入了数量：<div id="numberInfo"></div> <br>
+
+        <button type="button" id="nextBtn" name="button" disabled="true">
+            请选择手机颜色和购买数量
+        </button>
+
+        <script>
+            //使用中介者模式
+            var goods = { //手机库存
+                "red|32G": 3,
+                "red|16G": 0,
+                "blue|32G": 1,
+                "blue|16G": 6
+            };
+            var mediator = (function() {
+                var colorSelect = document.getElementById('colorSelect'),
+                    numberInput = document.getElementById('numberInput'),
+                    memorySelect = document.getElementById('memorySelect'),
+                    colorInfo   = document.getElementById('colorInfo'),
+                    numberInfo  = document.getElementById('numberInfo'),
+                    memoryInfo  = document.getElementById('memoryInfo'),
+                    nextBtn     = document.getElementById('nextBtn');
+
+                return {
+                    changed: function(obj) {
+                        var color = colorSelect.value,
+                            memory = memorySelect.value,
+                            number = parseInt(numberInput.value),
+                            stock = goods[color + '|' + memory];
+
+                        if(obj === colorSelect) {
+                            colorInfo.innerHTML = color;
+                        } else if(obj === memorySelect) {
+                            memoryInfo.innerHTML = memory;
+                        } else if(obj === numberInput) {
+                            numberInfo.innerHTML = number;
+                        }
+
+                        if(!color) {
+                            nextBtn.disabled = true;
+                            nextBtn.innerHTML = '请选择手机颜色';
+                            return;
+                        }
+
+                        if(!memory) {
+                            nextBtn.disabled = true;
+                            nextBtn.innerHTML = '请选择内存大小';
+                            return;
+                        }
+
+                        if(isNaN(number)) {
+                            nextBtn.disabled = true;
+                            nextBtn.innerHTML = '请输入正确的购买数量';
+                            return;
+                        }
+
+                        if(number > stock) {
+                            nextBtn.disabled = true;
+                            nextBtn.innerHTML = '库存不足';
+                            return;
+                        }
+
+                        nextBtn.disabled = false;
+                        nextBtn.innerHTML = '放入购物车';
+                    }
+                }
+            })();
+
+            //事件函数
+            colorSelect.onchange = function() {
+                mediator.changed(this);
+            };
+            memorySelect.onchange = function() {
+                mediator.changed(this);
+            };
+            numberInput.onblur = function() {
+                mediator.changed(this);
+            };
+        </script>
+
+        <script>
+        /*
+            var colorSelect = document.getElementById('colorSelect'),
+                numberInput = document.getElementById('numberInput'),
+                memorySelect = document.getElementById('memorySelect'),
+                colorInfo   = document.getElementById('colorInfo'),
+                numberInfo  = document.getElementById('numberInfo'),
+                memoryInfo  = document.getElementById('memoryInfo'),
+                nextBtn     = document.getElementById('nextBtn');
+
+            // var goods = { //手机库存
+            //     "red": 3,
+            //     "blue": 6
+            // };
+
+            var goods = { //手机库存
+                "red|32G": 3,
+                "red|16G": 0,
+                "blue|32G": 1,
+                "blue|16G": 6
+            };
+
+            colorSelect.onchange = function() {
+                var color = this.value,
+                    memory = memorySelect.value,
+                    number = parseInt(numberInput.value),
+                    stock = goods[color + '|' + memory];
+
+                colorInfo.innerHTML = color;
+                if(!color) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择手机颜色';
+                    return;
+                }
+
+                if(!memory) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择内存大小';
+                    return;
+                }
+
+                if(isNaN(number)) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请输入正确的购买数量';
+                    return;
+                }
+
+                if(number > stock) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '库存不足';
+                    return;
+                }
+
+                nextBtn.disabled = false;
+                nextBtn.innerHTML = '放入购物车';
+            };
+
+            numberInput.onblur = function() {
+                var color = colorSelect.value,
+                    memory = memorySelect.value,
+                    number = parseInt(this.value),
+                    stock = goods[color + '|' + memory];
+
+                numberInfo.innerHTML = number;
+
+                if(!color) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择手机颜色';
+                    return;
+                }
+
+                if(!memory) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择内存大小';
+                    return;
+                }
+
+                if(isNaN(number)) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请输入正确的购买数量';
+                    return;
+                }
+
+                if(number > stock) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '库存不足';
+                    return;
+                }
+
+                nextBtn.disabled = false;
+                nextBtn.innerHTML = '放入购物车';
+            };
+
+            memorySelect.onchange = function() {
+                var color = colorSelect.value,
+                    memory = this.value,
+                    number = parseInt(numberInput.value),
+                    stock = goods[color + '|' + memory];
+
+                memoryInfo.innerHTML = memory;
+
+                if(!color) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择手机颜色';
+                    return;
+                }
+
+                if(!memory) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请选择内存大小';
+                    return;
+                }
+
+                if(isNaN(number)) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '请输入正确的购买数量';
+                    return;
+                }
+
+                if(number > stock) {
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = '库存不足';
+                    return;
+                }
+
+                nextBtn.disabled = false;
+                nextBtn.innerHTML = '放入购物车';
+            };
+            */
+        </script>
+
+        <script>
+        /*
+            function Player(name) {
+                this.name = name;
+                this.enemy = null;
+            }
+            Player.prototype.win = function() {
+                console.log(this.name + ' won');
+            };
+            Player.prototype.lose = function() {
+                console.log(this.name + ' lost');
+            };
+            Player.prototype.die = function() {
+                this.lose();
+                this.enemy.win();
+            };
+
+            var player1 = new Player('皮蛋');
+            var player2 = new Player('小乖');
+            player1.enemy = player2;
+            player2.enemy = player1;
+
+            player1.die();
+            */
+
+            //多人版
+            /*
+
+            var players = [];
+
+            function Player(name, teamColor) {
+                this.partners = []; //队友列表
+                this.enemies = []; //敌人列表
+                this.state = []; //玩家状态
+                this.name = name; //角色名字
+                this.teamColor = teamColor; //队伍颜色
+            }
+
+            Player.prototype.win = function() { //玩家团队胜利
+                console.log('winner：' + this.name);
+            };
+            Player.prototype.lose = function() { //玩家团队失败
+                console.log('loser：' + this.name);
+            };
+
+            Player.prototype.die = function() { //玩家死亡
+                var all_dead = true;
+                this.state = 'dead';
+
+                //遍历队友列表
+                for(var i = 0, partner; partner = this.partners[i++];) {
+                    //如果还有一个队友没有死亡，则游戏还未失败
+                    if(partner.state !== 'dead') {
+                        all_dead = false;
+                        break;
+                    }
+                }
+
+                //如果队友全部死亡
+                if(all_dead === true) {
+                    this.lose(); //通知自己游戏失败
+                    //通知所有队友玩家游戏失败
+                    for(var i = 0, partner; partner = this.partners[i++];) {
+                        partner.lose();
+                    }
+                    //通知所有敌人游戏胜利
+                    for(var i = 0, enemy; enemy = this.enemies[i++];) {
+                        enemy.win();
+                    }
+                }
+            };
+
+            //定义一个工厂来创建玩家
+            var playerFactory = function(name, teamColor) {
+                var newPlayer = new Player(name, teamColor);
+
+                //通知所有玩家，有新角色加入
+                for(var i = 0, player; player = players[i++];) {
+                    //同一队互加好友
+                    if(player.teamColor === newPlayer.teamColor) {
+                        player.partners.push(newPlayer);
+                        newPlayer.partners.push(player);
+                    } else { //不同队互添仇恨
+                        player.enemies.push(newPlayer);
+                        newPlayer.enemies.push(player);
+                    }
+                }
+
+                players.push(newPlayer);
+                return newPlayer;
+            };
+
+            var p1 = playerFactory('皮蛋', 'red'),
+                p2 = playerFactory('小乖', 'red'),
+                p3 = playerFactory('宝宝', 'red'),
+                p4 = playerFactory('小强', 'red'),
+                p5 = playerFactory('黑妞', 'blue'),
+                p6 = playerFactory('葱头', 'blue'),
+                p7 = playerFactory('胖墩', 'blue'),
+                p8 = playerFactory('海盗', 'blue');
+
+            p1.die();
+            p2.die();
+            p3.die();
+            p4.die();
+            */
+            //多人版 end
+
+            //用中介者模式
+
+            function Player(name, teamColor) {
+                this.name = name; //角色名字
+                this.teamColor = teamColor; //队伍颜色
+                this.state = 'alive'; //玩家生存状态
+            }
+
+            Player.prototype.win = function() { //玩家团队胜利
+                console.log(this.name + ' won');
+            };
+            Player.prototype.lose = function() { //玩家团队失败
+                console.log(this.name + ' lost');
+            };
+            Player.prototype.die = function() { //玩家死亡
+                this.state = 'dead';
+                playerDirector.ReceiveMessage('playerDead', this);
+            };
+
+            Player.prototype.remove = function() { //移除玩家
+                playerDirector.ReceiveMessage('removePlayer', this);
+            };
+            Player.prototype.changeTeam = function(color) { //玩家换队
+                playerDirector.ReceiveMessage('changeTeam', this, color);
+            };
+
+            var playerFactory = function(name, teamColor) {
+                var newPlayer = new Player(name, teamColor);
+
+                //给中介者发送消息，新增玩家
+                playerDirector.ReceiveMessage('addPlayer', newPlayer);
+
+                return newPlayer;
+            };
+
+            var playerDirector = (function() {
+                var players = {}, //保存所有玩家
+                    operations = {}; //中介者可以执行的操作
+
+                //新增一个玩家
+                operations.addPlayer = function(player) {
+                    var teamColor = player.teamColor;
+
+                    //如果该颜色的玩家还没有成立队伍，则新成立一个队伍
+                    players[teamColor] = players[teamColor] || [];
+
+                    //添加进队伍
+                    players[teamColor].push(player);
+                };
+
+                //移除一个玩家
+                operations.removePlayer = function(player) {
+                    var teamColor = player.teamColor,
+                        teamPlayers = players[teamColor] || [];
+
+                    //遍历删除
+                    for(var i = teamPlayers.length - 1; i >= 0; i--) {
+                        if(teamPlayers[i] === player) {
+                            teamPlayers.splice(i, 1);
+                        }
+                    }
+                };
+
+                //玩家换队
+                operations.changeTeam = function(player, newTeamColor) {
+                    //从原队伍删除
+                    operations.removePlayer(player);
+                    //改变队伍颜色
+                    player.teamColor = newTeamColor;
+                    //增加到新队伍中
+                    operations.addPlayer(player);
+                };
+
+                //玩家死亡
+                operations.playerDead = function(player) {
+                    var teamColor   = player.teamColor,
+                        teamPlayers = players[teamColor],
+                        all_dead    = true;
+
+                    for(var i = 0, player; player = teamPlayers[i++];) {
+                        if(player.state !== 'dead') {
+                            all_dead = false;
+                            break;
+                        }
+                    }
+
+                    if(all_dead === true) {
+                        //本队所有玩家lose
+                        for(var i = 0, player; player = teamPlayers[i++];) {
+                            player.lose();
+                        }
+                        for(var color in players) {
+                            if(color !== teamColor) {
+                                //其他队伍获胜
+                                var teamPlayers = players[color];
+                                for(var i = 0, player; player = teamPlayers[i++];) {
+                                    player.win();
+                                }
+                            }
+                        }
+                    }
+                };
+
+                var ReceiveMessage = function() {
+                    var message = Array.prototype.shift.call(arguments);
+
+                    operations[message].apply(this, arguments);
+                };
+
+                return {
+                    ReceiveMessage: ReceiveMessage
+                }
+            })();
+            var p1 = playerFactory('1', 'red'),
+                p2 = playerFactory('2', 'red'),
+                p3 = playerFactory('3', 'red'),
+                p4 = playerFactory('4', 'blue'),
+                p5 = playerFactory('5', 'blue'),
+                p6 = playerFactory('6', 'blue');
+        </script>
+    </body>
+</html>

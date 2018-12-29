@@ -79,3 +79,57 @@ let login2 = LoginForm.getInstance()
 login2.show()
 ```
 
+## 透明的单例模式
+
+用户创建对象的时候,可以像其他任何普通类一样:创建一个向页面添加`div`的类
+
+```JavaScript
+var CreateDiv = (function(){
+    var instance;
+    var CreateDiv = function( html ){
+        if ( instance ){
+            return instance;
+        }
+        this.html = html;
+        this.init();
+        return instance = this;
+    };
+    CreateDiv.prototype.init = function(){
+        var div = document.createElement( 'div' );
+        div.innerHTML = this.html;
+        document.body.appendChild( div );
+    };
+    return CreateDiv;
+})();
+
+var a = new CreateDiv( 'sven1' );
+var b = new CreateDiv( 'sven2' );
+alert ( a === b );     // true
+```
+
+当需要向页面添加多个`div`时,可能我们需要改写`CreateDiv`类,把控制唯一的那一段去掉
+
+## 利用代理创建单例
+
+```JavaScript
+var CreateDiv = function( html ){
+    this.html = html;
+    this.init();
+};
+
+CreateDiv.prototype.init = function(){
+    var div = document.createElement( 'div' );
+    div.innerHTML = this.html;
+    document.body.appendChild( div );
+};
+var ProxySingletonCreateDiv = (function(){
+    var instance;
+    return function( html ){
+        if ( !instance ){
+            instance = new CreateDiv( html );
+        }
+        return instance;
+    }
+})();
+```
+

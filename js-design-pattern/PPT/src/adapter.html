@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>适配器模式</title>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+    var googleMap = {
+      show: function() {
+        console.log('开始渲染谷歌地图');
+      }
+    };
+
+    var baiduMap = {
+      display: function() {
+        console.log('开始渲染百度地图');
+      }
+    };
+
+    var baiduMapAdapter = {
+      show: function() {
+        return baiduMap.display();
+      }
+    };
+
+    var renderMap = function(map) {
+      if(map.show instanceof Function) {
+        map.show();
+      }
+    };
+    renderMap(googleMap);
+    renderMap(baiduMapAdapter);
+
+    var beijingCity = [
+      {
+        name: 'haidian',
+        id: 1
+      },
+      {
+        name: 'chaoyang',
+        id: 2
+      }
+    ];
+
+    var newBeijngCity = {
+      'haidian': 1,
+      'chaoyang': 2
+    };
+
+    var getBeijingCity = function() {
+      // return beijingCity;
+
+      return newBeijngCity;
+    };
+
+    var render = function(fn) {
+      console.log('开始渲染北京地图');
+      document.write(JSON.stringify(fn()));
+    };
+
+    var addressAdapter = function(newAddressFn) {
+      var address = [];
+      var newAddress = newAddressFn();
+
+      for(var name in newAddress) {
+        address.push({name: name, id: newAddress[name]});
+      }
+
+      return function() {
+        return address
+      }
+    };
+
+    render(addressAdapter(getBeijingCity));
+    </script>
+  </body>
+</html>

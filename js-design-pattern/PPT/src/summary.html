@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>总结</title>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+        /* 单一职责原则 */
+
+        //图片预加载
+        //负责往页面里面添加img标签
+        var myImage = (function() {
+          var img = document.createElement('img');
+          document.body.appendChild(img);
+
+          return {
+            setSrc: function(src) {
+                img.src = src;
+            }
+          }
+        })();
+
+        //代理对象负责预加载图片,并在预加载完成之后把请求交给本体 myImage
+        var proxyImage = (function() {
+            var img = new Image;
+            img.onload = function() {
+                myImage.setSrc(this.src);
+            };
+
+            return {
+              setSrc: function(src) {
+                myImage.setSrc('loading.gif');
+                img.src = src;
+              }
+            }
+        })();
+
+        var imgSrc = 'https://mercrt-fd.zol-img.com.cn/g5/M00/05/0D/ChMkJ1t9CpGISdqiAAUfs13NidwAArH0AM4QO4ABR_L887.jpg';
+        proxyImage.setSrc(imgSrc);
+
+        /*开放封闭原则(ocp)*/
+
+        window.onload = function(){
+          console.log('我是原来的代码^_^@');
+        };
+
+        Function.prototype.after = function(fn) {
+          var _fn = this;
+
+          return function() {
+            var ret = _fn.apply(this, arguments);
+            fn.apply(this, arguments);
+            return ret;
+          }
+        };
+
+        window.onload = (window.onload || function(){}).after(function() {
+          console.log( document.getElementsByTagName( '*' ).length );
+        });
+
+        /* 代码重构 */
+        var printDetails = function(data) {
+            console.log('userId:' + data.userId);
+            console.log('userName:' + data.userName);
+            console.log('nickName:' + data.nickName);
+        };
+
+        var getUserInfo = function() {
+          ajax('http://xxx.com/userInfo', function(data) {
+              // console.log('userId:' + data.userId);
+              // console.log('userName:' + data.userName);
+              // console.log('nickName:' + data.nickName);
+
+              printDetails(data);
+          });
+        };
+
+        var paging = function(currPage) {
+          if(currPage <= 0) {
+            currPage = 0;
+            jump(currPage); //跳转
+          } else if(currPage >= totalPage) {
+            currPage = totalPage;
+            jump(currPage); //跳转
+          } else {
+            jump(currPage); //跳转
+          }
+        };
+        var paging = function(currPage) {
+          if(currPage <= 0) {
+            currPage = 0;
+          } else if(currPage >= totalPage) {
+            currPage = totalPage;
+          }
+          jump(currPage); //跳转
+        };
+
+        var getPrice = function(price) {
+          var date = new Date();
+
+          //夏天
+          if(date.getMonth() >= 6 && date.getMonth() <= 9) {
+            return price * 0.8;
+          }
+
+          return price;
+        };
+
+        var isSummer = function() {
+          var date = new Date();
+          return date.getMonth() >= 6 && date.getMonth() <= 9;
+        };
+        var getPrice = function(price) {
+          if(isSummer()) {
+            return price * 0.8;
+          }
+          return price;
+        };
+
+        var setUserInfo = function(id, name, address, sex, mobile, qq) {
+          console.log('id= ' + id);
+          console.log('name= ' + name);
+          console.log('address= ' + address);
+          console.log('sex= ' + sex);
+          console.log('mobile= ' + mobile);
+          console.log('qq= ' + qq);
+        };
+
+        var setUserInfo = function(obj) {
+          console.log('id= ' + obj.id);
+          console.log('name= ' + obj.name);
+          console.log('address= ' + obj.address);
+          console.log('sex= ' + obj.sex);
+          console.log('mobile= ' + obj.mobile);
+          console.log('qq= ' + obj.qq);
+        };
+    </script>
+  </body>
+</html>
